@@ -1,0 +1,30 @@
+- InFront of player HECHO
+- GUI HECHO
+- MAP INFO HECHO
+- change Map HECHO
+- Objetos arrojables y/o rompibles.
+- Slider Button A.
+- Presentation Object.
+- MAP EDITOR!!!
+
+- Establecer Controles
+  - GamePad
+    * Correr
+    * Empujar Cosas
+  - Button A
+    * Atacar
+    * Hablar
+    * Activar Cosas
+    * Cojer Objetos
+    * Tirar Objetos
+  - Slide Button A
+    * Cambiar Arma
+  - Button B
+    * Activar Sigilo
+    * Escudo
+  - Button UpLeft
+    * Ordenes Perro
+  - Click in Player
+    * Inventario
+  - Click in Map
+    * Atacar a distancia

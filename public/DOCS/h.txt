@@ -1,0 +1,168 @@
+Contexto:
+  - Epoca: Medieval Fantástica.
+  - Estación: Verano.
+  - Clima: Tormenta.
+Personaje Principal:
+  - Nombre: (a definir por el usuario)
+  - Edad: 8 años
+
+Terminos del juego:
+  - Celim : Moneda
+Historia:
+[PRESENTACIÓN]
+ Todo comienza en una aldea tranquila y pacífica en medio de un bosque,[NOMBRE] está ayudando a su madre lavando los platos, cuando de repente se escucha un fuerte estruendo:
+ - Madre: Espera aquí adentro...
+ La madre se va de la casa.
+ (5 segundos de silencio)
+ - Madre: AHHHHHHHHH!! [NOMBRE]!!!
+
+ El niño sale de la casa y observa cómo se llevan a su madre en caballo.
+[JUEGO]
+ Tomas tu espada de juguete, y te diriges hacia la colina que se llevaron a tu madre, en el trascurso te encuentras con algunos enemigos (TUTORIAL DE COMBATE SIMPLE)
+[PRESENTACIÓN]
+ Al llegar a la colina ves a tu madre tirada en el suelo y al lado un caballero de armadura oscura.
+ - Caballero: Dime donde esta!!
+ - Madre: Nunca te lo diré, nunca lo encontraras...
+ El caballero se percata de la presencia de [NOMBRE].
+ - Madre: [NOMBRE]!! Corre!!
+ El caballero haciendo un movimiento desconocido aparece detras de [NOMBRE] y lo toma del cabello.
+ - Madre: No lo lastimes!!! te dire donde esta!!!
+[JUEGO]
+ Aparece en pantalla un botón para patear.
+[PRESENTACIÓN]
+ Pateas al caballero y este te arroja cerca de tu Madre.
+ - Caballero: Te enseñare modales...
+ El caballero desenfunda su espada y arremete contra [NOMBRE].
+ (Relámpago pantalla toda blanca por 1 segundo)
+ Se ve a Madre atravesada por la espada del Caballero cubriendo a [NOMBRE].
+ - Madre: [NOMBRE] corre...y VIVE!
+ [NOMBRE] se aleja corriendo.
+ (Pantalla negra con el Logo)
+
+ **** 4 años despues. ****
+
+ Escenario: Granero oloroso.
+
+[PRESENTACIÓN]
+[NOMBRE] esta durmiendo en una pila de heno. Con toda su cara sucia y ropa rotosa.
+TOC TOC TOC en la puertas del granero
+- Don PEPE: Levantate olgazan!! No debi a verte salvado hace 4 años de ese arroyo. Debes limpiar la casa, ordenar mis herramientas, traer agua del pozo y echar a un vagabundo que esta durmiendo en el huerto detras de la casa.
+
+[JUEGO]
+Mueve para levantar a [NOMBRE].
+  Obj: 1 celim.
+>> Sales del granero
+  Observas el establo al lado izq de la pantalla al lado derecha la casa de Don PEPE y a Don PEPE parado en la puerta, enfrente del granero un establo con un par de caballos. A la izquierda del establo un rio fluyendo.y a lado derecho de la pantalla vallas de un establo.
+
+  ?? Si te diriges hacia el sur Don PEPE te grita desde la casa
+  - Don PEPE: ¿A donde crees que vas? Debes limpiar la casa!.
+  ?? Si intentas abrir la puerta de los establos Don PEPE te grita desde la casa.
+  - Don PEPE: No toques mis caballos...
+
+  !! Si te diriges a la casa Don PEPE esta parado en la puerta al acercarte. Don PEPE golpea de una patada a [NOMBRE] y este sale despedido hacia el sur.
+  - Don PEPE: Mejor ordena primero mis herramientas...JA JA JA. Estan en el cobertizo de mi derecha.
+
+>> Entras en el cobertizo de la derecha de la casa.
+  Al entrar la puerta del cobertizo se cierra.
+  - Don PEPE: No saldras hasta que quede todo ordenado!!.
+
+  Debes recoger una a una las herramientas que estan en el suelo y ponerlas en su lugar.
+  (TUTORIAL DE TRASLADO DE OBJETOS)
+
+  Una vez ordenas todas las herramientas. La puerta del cobertizo se abre.
+  - Don PEPE: Ve a traer agua del pozo.
+
+  Te acercas a la puerta del cobertizo y recibes otra patada de Don PEPE.
+  - Don PEPE: JA JA JA...mejor haz algo productivo y ve a correr a ese vagabundo.
+
+>> Sales del cobertizo
+  Observas la misma pantalla que al comienzo solo que Don PEPE te bloque el camino hacia el sur.
+
+  ?? si vas hacia el sur Don PEPE te patea hacia el norte.
+  - Don PEPE: ¿A donde crees que vas?
+
+>> Te diriges hacia el norte.
+  Observas el huerto detras de la casa con el vagabundo durmiendo en el centro de el. A tu izquierda continua el rio fluyendo a tu derecha continuan las vallas y al norte una colina que no puedes trepar.
+
+  ?? si te diriges hacia el sur regresas a la pantalla anterior.
+
+  !! si entras el huerto, aparece Don PEPE desde el sur.
+  - Don PEPE: Hazlo rapido y pensare si comes algo el fin de semana...Eres un eclenque y fracasado...Al igual que tu Madre!!
+  Don PEPE desaparece hacia el sur.
+
+  Te acercas al vagabundo, haces click sobre el para despertarlo.
+  - Vagabundo: zzzzzZZZzzzz.
+  Haces click nuevamente.
+  - Vagabundo: zzzzz...zzZZZZ
+  Haces click nuevamente.
+  - Vagabundo: Eh! ¿Que quiere niño?...¿Que me valla de aqui?. Si tanto quiere tu amo que me valla dile que venga el mismo...Dejame dormir.
+  Haces click nuevamente.
+  - Vagabundo: ¿Que dices? ¿Que te golpeara si no haces que me valla?...¿Por que le haces caso?. El te insulto e insulto a tu Madre. ¿Por que no huyes?...¿Porque no tienes a donde ir?...¿No tienes amigos,familia o lo que sea?...zzzZZZzzz
+  Haces click nuevamente y [NOMBRE] patea con mas fuerza al vagabundo.
+  - Vagabundo: valla parece que tanto trabajo te ah fortalecido!. Esta bien tengo algo para ti...algo que necesitas...Buscame al anochecer te esperare al sur de la granja de Don PEPE en el pozo de agua. Pero te advierto...puedes ser lo último que hagas.
+
+  Pantalla negra suavemente.
+
+>> Apareces en el granero al anochecer.
+    Obj: 1 Celim.
+>> Sales del granero.
+  Todo esta mas oscuro.
+
+  ?? Si intentas abrir la puerta del establo de los caballos, Don PEPE grita desde adentro de la casa.
+  - Don PEPE: ¿Que fue ese ruido quien esta molestado a mis caballos?. Larguese!!
+
+>> Te diriges hacia el sur de la villa de Don PEPE.
+    Observas en el centro de la pantalla el pozo de agua, al lado al vagabundo parado, a la izquierda continua el rio fluyendo, a tu derecha continua las vallas con un camino hacia el OESTE en medio. cerrado por un porton. al sur una colina que no puedes trepar.
+
+    Te acercas al vagabundo.
+    - Vagabundo: Asi que haz venido EH!...Dije que iba a darte algo necesitas. Observa dentro del pozo y lo veras.
+
+    El vagabundo empuja a [NOMBRE] dentro del pozo.
+
+>> Caes al pozo
+  El pozo es un lugar humedo y oscuro. A tu derecha ves una reja destruida.
+
+  - Vagabundo: Continua por el pozo y encontraras lo que necesitas...Te esperare en el otro extremo del pozo...Si es que sales con vida de el...
+
+>> Entras por la reja.
+  Observas unas catacumbas oscuras y humedas.
+
+  Te adentras en ella, buscando la salida. En algunas habitaciones te encuentras con DarkEnts, seres totalmente negro que deambulan por las catacumbas. Desde pasar sigilosamente sin que te vean para llegar a la salida.
+
+  (TUTORIAL DE SIGILO)
+
+  Luego de pasar por las catacumbas llegas a una sala amplia. En el centro de la sala observas a un cachorro malherido y al lado de el un ente todo completamente rojo.
+
+  Te acercas al cachorro o al ente.
+  - ???: ¿Que deseas niño?...¿Que me aleje de este cachorro?...¿Por que eh de alejarme?. El alma de este animal me pertene...¿Acaso deseas liberarlo?...debes dar algo a cambio...
+
+  Opciones
+  * Aceptar oferta.
+  * Rechazar oferta.
+
+  Si rechazas la oferta, no pasa nada y el ente continua deborando al cachorro si vuelve a hablar con el.
+  - ???: ¿Has cambiado de opinión?
+
+  y reaparecen las opciones.
+
+  Si aceptas la oferta...
+  ???: JA JA JA...El trato esta hecho...
+
+  El ente rojo lanza hacia atras a [NOMBRE] de un impuslo y queda en sus manos el alma de [NOMBRE] este la parte por la mitad, e ingresa la mitad en el cachorro y la otra mitad en [NOMBRE].
+
+  ???: JA JA JA...Trato completado...
+
+  Pantallazo negro suavemente
+
+  **** Un par de minutos mas tarde ****
+
+  - ???: (Guau)(Guau) Despierta humano!!
+
+  la pantalla se disfumina y observas a [NOMBRE] tirado contra la pared y al cachorro parado frente a el feliz moviendo su colita.
+
+  - ???: Despierta o nos atraparan!. (Guau)
+
+  [NOMBRE] se espanta al ver que el cachorro habla y se aleja.
+  
+
+

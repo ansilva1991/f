@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Game</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <link rel="stylesheet" href="css/fonts.css">
+</head>
+<body>
+  <div style="float:left; width: 50%;">
+    Create Random<br>
+    <input type="text" style="width:50px" id="create_random_0" value="0">
+    <input type="text" style="width:50px" id="create_random_1" value="0">
+    <input type="text" style="width:50px" id="create_random_2" value="0">
+    <input type="text" style="width:50px" id="create_random_3" value="0">
+    <br>
+    Velocity Random<br>
+    <input type="text" style="width:50px" id="velocity_random_0" value="0">
+    <input type="text" style="width:50px" id="velocity_random_1" value="0">
+    <input type="text" style="width:50px" id="velocity_random_2" value="0">
+    <input type="text" style="width:50px" id="velocity_random_3" value="0">
+    <br>
+    Gravity<br>
+    <input type="text" style="width:50px" id="gravity_0" value="270">
+    <input type="text" style="width:50px" id="gravity_1" value="0">
+    <br>
+    Alpha<br>
+    <input type="text" style="width:50px" id="alpha_0" value="0">
+    <input type="text" style="width:50px" id="alpha_1" value="1">
+    <br>
+    Size<br>
+    <input type="text" style="width:50px" id="size_0" value="1">
+    <input type="text" style="width:50px" id="size_1" value="2">
+    <br>
+    Max Life<br>
+    <input type="text" style="width:50px" id="max_life_0" value="5">
+    <input type="text" style="width:50px" id="max_life_1" value="10">
+    <br>
+    Max Particles<br>
+    <input type="text" style="width:50px" id="max_particles" value="50">
+    <br>
+    Spawn Time<br>
+    <input type="text" style="width:50px" id="spawn_time" value="0.1">
+    <br>
+    Floor In<br>
+    <input type="text" style="width:50px" id="floor_in" value="0">
+    <br>
+    Particles Type<br>
+    <select id="particle_type">
+      <option value="circle">Circle</option>
+      <option value="rect">Rect</option>
+    </select>
+    <br>
+    Unique Anim<br>
+    <select id="unique_anim">
+      <option value="true">True</option>
+      <option value="false">False</option>
+    </select>
+    <br>
+    Color<br>
+    <input type="text" style="width:50px" id="color" value="#ff0000">
+    <br>
+    Background Color<br>
+    <select id="back_color">
+      <option value="#fff">White</option>
+      <option value="#000">Black</option>
+      <option value="#ccc">Gray</option>
+      <option value="#ff00ff">Pink</option>
+    </select>
+    <br>
+    <button onclick="newParticle();">Create</button>
+  </div>
+  <div style="float:left; width: 50%;">
+    <canvas width="300" height="300" id="canvas"></canvas>
+  </div>
+  <script type="text/javascript" src='js/utils.js?1'></script>
+
+  <script type="text/javascript" src='class/resources.js?1'></script>
+  <script type="text/javascript" src='class/gameloop.js?1'></script>
+  <script type="text/javascript" src='class/particles.js?1'></script>
+  <script type="text/javascript">
+    var assets_version = 1;
+    var canvas = document.getElementById("canvas");
+    canvas.imageSmoothingEnabled = false;
+    var ctx = canvas.getContext('2d',true);
+
+    ctx.fillStyle = document.getElementById('back_color').value;
+    ctx.fillRect(0,0,300,300);
+
+    var particle;
+
+    var main = {
+      resources : new Resources(),
+      gameview : {
+        loop : new GameLoop(function(){
+          main.gameview.Update();
+        }),
+        Update : function(){
+          if(particle != undefined){
+            particle.Update();
+            ctx.fillStyle = document.getElementById('back_color').value;
+            ctx.fillRect(0,0,300,300);
+            ctx.save();
+              ctx.scale(4,4);
+              particle.Draw(ctx);
+            ctx.restore();
+          }
+        }
+      }
+    };
+    main.gameview.loop.Start();
+    function newParticle(){
+      particle = new Particles(38,38,'simple',{
+            offset: [0,-10],
+            create_random: [
+              [g('create_random_0'),g('create_random_1')],
+              [g('create_random_2'),g('create_random_3')]
+            ],
+            velocity_random: [
+              [g('velocity_random_0'),g('velocity_random_1')],
+              [g('velocity_random_2'),g('velocity_random_3')]
+            ],
+            gravity: [g('gravity_0'),g('gravity_1')],
+            alpha: [g('alpha_0'),g('alpha_1')],
+            floor_in: g('floor_in'),
+            size: [g('size_0'),g('size_1')],
+            max_life: [g('max_life_0'),g('max_life_1')],
+            max_particles: g('max_particles'),
+            spawn_time: g('spawn_time'),
+            particle_type: document.getElementById('particle_type').value,
+            unique_anim: document.getElementById('unique_anim').value == "true" ? true : false,
+            color: document.getElementById('color').value
+          });
+    }
+    function g(n){
+      console.log(n,parseFloat(document.getElementById(n).value));
+      return parseFloat(document.getElementById(n).value);
+    }
+  </script>
+</body>
+</html>
