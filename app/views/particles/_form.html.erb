@@ -1,0 +1,97 @@
+<%= form_for @particle do |f| %>
+  <div class="item">
+    <%= f.label 'Type' %>
+    <%= f.select :type, collect_types %>
+  </div>
+  <div class="item">
+    <%= f.label 'Offset' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'X' %>
+      <%= f.text_field :offset_x %>
+      <%= f.label 'Y' %>
+      <%= f.text_field :offset_y %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Spawn Time' %>
+    <%= f.text_field :spawn_time %>
+  </div>
+  <div class="item">
+    <%= f.label 'Max Particles' %>
+    <%= f.text_field :max_particles %>
+  </div>
+  <div class="item">
+    <%= f.label 'Unique anim' %>
+    <%= f.check_box :unique_anim %>
+  </div>
+  <div class="item">
+    <%= f.label 'Floor In' %>
+    <%= f.text_field :floor_in %>
+  </div>
+  <div class="item">
+    <%= f.label 'Create Random' %>
+    <div class="group_inputs group_inputs_4">
+      <%= f.label 'X1' %>
+      <%= f.text_field :create_random_hinit %>
+      <%= f.label 'X2' %>
+      <%= f.text_field :create_random_hend %>
+      <%= f.label 'Y1' %>
+      <%= f.text_field :create_random_vinit %>
+      <%= f.label 'Y2' %>
+      <%= f.text_field :create_random_vend %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Velocity Random' %>
+    <div class="group_inputs group_inputs_4">
+      <%= f.label 'X1' %>
+      <%= f.text_field :velocity_random_hinit %>
+      <%= f.label 'X2' %>
+      <%= f.text_field :velocity_random_hend %>
+      <%= f.label 'Y1' %>
+      <%= f.text_field :velocity_random_vinit %>
+      <%= f.label 'Y2' %>
+      <%= f.text_field :velocity_random_vend %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Gravity' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'Dir' %>
+      <%= f.text_field :gravity_direction %>
+      <%= f.label 'F' %>
+      <%= f.text_field :gravity %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Alpha' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'I' %>
+      <%= f.text_field :alpha_init %>
+      <%= f.label 'E' %>
+      <%= f.text_field :alpha_end %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Size' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'I' %>
+      <%= f.text_field :size_init %>
+      <%= f.label 'E' %>
+      <%= f.text_field :size_end %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Max Life' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'I' %>
+      <%= f.text_field :max_life_init %>
+      <%= f.label 'E' %>
+      <%= f.text_field :max_life_end %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Color' %>
+    <%= f.color_field :color %>
+  </div>
+<% end %>

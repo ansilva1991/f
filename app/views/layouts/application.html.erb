@@ -3,12 +3,54 @@
 <head>
   <title>Fwcdvdxcwcw</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'font-awesome' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="header">
+  <%= render "head" %>
+</div>
+<div class="body">
+  <% if @left %>
+    <% @left.each do |i| %>
+      <div class="<%= i[:class_html] %>">
+        <%= render i[:content] %>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="col-body">
+    <%= yield %>
+  </div>
+  <% if @right %>
+    <% @right.each do |i| %>
+      <div class="<%= i[:class_html] %>">
+        <%= render i[:content] %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $(window).resize(function(){
+    var tmp_total = 0;
 
-<%= yield %>
+    $('.body').children().each(function(){
+      $(this).height($(this).parent().height() - 2);
+      var w = $(this).width() + 2;
+      var c = $(this).attr('class');
 
+      if(c != 'col-body'){
+        tmp_total += w
+      }
+    });
+    $('.col-body').css({'width' : $(window).innerWidth() - tmp_total });
+
+    $('.col-body-content').css({ 'margin-top' : $('.col-body').height() * 0.5 - $('.col-body-content').height() * 0.5 })
+  });
+  $('.col-form>form>.item').each(function(){
+    console.log($(this).children());
+  });
+  $(window).resize();
+</script>
 </body>
 </html>
