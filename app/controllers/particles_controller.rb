@@ -5,12 +5,6 @@ class ParticlesController < ApplicationController
     @particle = Particle.new
   end
   def set_tools
-    @left = [
-      {
-        class_html: 'col-icons',
-        content: 'left_icons'
-      }
-    ]
     @right = [
       { class_html: 'col-form',
         content: 'form'},

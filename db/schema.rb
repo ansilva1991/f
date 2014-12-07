@@ -16,29 +16,29 @@ ActiveRecord::Schema.define(version: 20141206222746) do
   create_table "particles", force: true do |t|
     t.string   "name"
     t.string   "type"
-    t.integer  "offset_x"
-    t.integer  "offset_y"
-    t.float    "spawn_time",            limit: 24
-    t.integer  "max_particles"
-    t.boolean  "unique_anim"
-    t.integer  "floor_in"
-    t.float    "create_random_hinit",   limit: 24
-    t.float    "create_random_hend",    limit: 24
-    t.float    "create_random_vinit",   limit: 24
-    t.float    "create_random_vend",    limit: 24
-    t.float    "velocity_random_hinit", limit: 24
-    t.float    "velocity_random_hend",  limit: 24
-    t.float    "velocity_random_vinit", limit: 24
-    t.float    "velocity_random_vend",  limit: 24
-    t.integer  "gravity_direction"
-    t.float    "gravity",               limit: 24
-    t.float    "alpha_init",            limit: 24
-    t.float    "alpha_end",             limit: 24
-    t.float    "size_init",             limit: 24
-    t.float    "size_end",              limit: 24
-    t.float    "max_life_init",         limit: 24
-    t.float    "max_life_end",          limit: 24
-    t.string   "color"
+    t.integer  "offset_x",                         default: 0
+    t.integer  "offset_y",                         default: 0
+    t.float    "spawn_time",            limit: 24, default: 0.0
+    t.integer  "max_particles",                    default: 0
+    t.boolean  "unique_anim",                      default: false
+    t.integer  "floor_in",                         default: 0
+    t.float    "create_random_hinit",   limit: 24, default: 0.0
+    t.float    "create_random_hend",    limit: 24, default: 0.0
+    t.float    "create_random_vinit",   limit: 24, default: 0.0
+    t.float    "create_random_vend",    limit: 24, default: 0.0
+    t.float    "velocity_random_hinit", limit: 24, default: 0.0
+    t.float    "velocity_random_hend",  limit: 24, default: 0.0
+    t.float    "velocity_random_vinit", limit: 24, default: 0.0
+    t.float    "velocity_random_vend",  limit: 24, default: 0.0
+    t.integer  "gravity_direction",                default: 270
+    t.float    "gravity",               limit: 24, default: 0.0
+    t.float    "alpha_init",            limit: 24, default: 0.0
+    t.float    "alpha_end",             limit: 24, default: 0.0
+    t.float    "size_init",             limit: 24, default: 0.0
+    t.float    "size_end",              limit: 24, default: 0.0
+    t.float    "max_life_init",         limit: 24, default: 0.0
+    t.float    "max_life_end",          limit: 24, default: 0.0
+    t.string   "color",                            default: "#000000"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

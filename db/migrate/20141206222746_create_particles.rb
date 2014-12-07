@@ -3,29 +3,29 @@ class CreateParticles < ActiveRecord::Migration
     create_table :particles do |t|
       t.string :name
       t.string :type
-      t.integer :offset_x
-      t.integer :offset_y
-      t.float :spawn_time
-      t.integer :max_particles
-      t.boolean :unique_anim
-      t.integer :floor_in
-      t.float :create_random_hinit
-      t.float :create_random_hend
-      t.float :create_random_vinit
-      t.float :create_random_vend
-      t.float :velocity_random_hinit
-      t.float :velocity_random_hend
-      t.float :velocity_random_vinit
-      t.float :velocity_random_vend
-      t.integer :gravity_direction
-      t.float :gravity
-      t.float :alpha_init
-      t.float :alpha_end
-      t.float :size_init
-      t.float :size_end
-      t.float :max_life_init
-      t.float :max_life_end
-      t.string :color
+      t.integer :offset_x, default: 0
+      t.integer :offset_y, default: 0
+      t.float :spawn_time, default: 0
+      t.integer :max_particles, default: 0
+      t.boolean :unique_anim, default: false
+      t.integer :floor_in, default: 0
+      t.float :create_random_hinit, default: 0
+      t.float :create_random_hend, default: 0
+      t.float :create_random_vinit, default: 0
+      t.float :create_random_vend, default: 0
+      t.float :velocity_random_hinit, default: 0
+      t.float :velocity_random_hend, default: 0
+      t.float :velocity_random_vinit, default: 0
+      t.float :velocity_random_vend, default: 0
+      t.integer :gravity_direction, default: 270
+      t.float :gravity, default: 0
+      t.float :alpha_init, default: 0
+      t.float :alpha_end, default: 0
+      t.float :size_init, default: 0
+      t.float :size_end, default: 0
+      t.float :max_life_init, default: 0
+      t.float :max_life_end, default: 0
+      t.string :color, default: "#000000"
 
       t.timestamps
     end

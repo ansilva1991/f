@@ -114,7 +114,7 @@ body{
 .col-form>form>.item>.group_inputs>label{
   width: 50%;
   color:#fff;
-  font-size: 12px;
+  font-size: 10px;
   font-family: arial;
   display:inline;
 }
@@ -135,7 +135,7 @@ body{
   width: 20%;
 }
 .col-form>form>.item>.group_inputs_4>input{
-  width: 10%;
+  width: 37px;
 }
 .col-form>form>.item>input[type="checkbox"]{
   width: 12px;
