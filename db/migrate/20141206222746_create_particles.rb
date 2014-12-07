@@ -2,7 +2,7 @@ class CreateParticles < ActiveRecord::Migration
   def up
     create_table :particles do |t|
       t.string :name
-      t.string :type
+      t.string :particle_type
       t.integer :offset_x, default: 0
       t.integer :offset_y, default: 0
       t.float :spawn_time, default: 0

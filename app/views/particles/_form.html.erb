@@ -1,7 +1,11 @@
 <%= form_for @particle do |f| %>
   <div class="item">
+    <%= f.label 'Name' %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="item">
     <%= f.label 'Type' %>
-    <%= f.select :type, collect_types %>
+    <%= f.select :particle_type, collect_types %>
   </div>
   <div class="item">
     <%= f.label 'Offset' %>

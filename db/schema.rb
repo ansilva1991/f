@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20141206222746) do
 
   create_table "particles", force: true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "particle_type"
     t.integer  "offset_x",                         default: 0
     t.integer  "offset_y",                         default: 0
     t.float    "spawn_time",            limit: 24, default: 0.0

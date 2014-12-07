@@ -1,2 +1,121 @@
+<script type="text/javascript" src="/class/resources.js"></script>
+<script type="text/javascript" src="/class/gameloop.js"></script>
+<script type="text/javascript" src="/class/particles.js"></script>
+<script type="text/javascript" src="/class/monigote.js"></script>
+<base href="/">
+
 <div class="col-body-content grid_12" style="width:500px; height:500px;">
+  <canvas width="500" height="500" id="canvas"></canvas>
 </div>
+<script type="text/javascript">
+  function Save(){
+    $('form').submit();
+  }
+  function updateParticle(){
+    var options = {};
+    options.particle_type = $('#particle_particle_type').val();
+    options.offset = [
+      parseInt($('#particle_offset_x').val()),
+      parseInt($('#particle_offset_y').val())
+    ];
+
+    options.spawn_time = parseFloat($('#particle_spawn_time').val());
+    options.max_particles = parseInt($('#particle_max_particles').val());
+    options.unique_anim = $('#particle_unique_anim').attr('checked') == "checked" ? true : false;
+    options.floor_in = parseInt($('#particle_floor_in').val());
+
+    var tmp = [];
+    tmp[0] = [
+      parseFloat($('#particle_create_random_hinit').val()),
+      parseFloat($('#particle_create_random_hend').val())
+    ];
+
+    tmp[1] = [
+      parseFloat($('#particle_create_random_vinit').val()),
+      parseFloat($('#particle_create_random_vend').val())
+    ];
+
+    options.create_random = tmp;
+
+    tmp = [];
+    tmp[0] = [
+      parseFloat($('#particle_velocity_random_hinit').val()),
+      parseFloat($('#particle_velocity_random_hend').val())
+    ];
+
+    tmp[1] = [
+      parseFloat($('#particle_velocity_random_vinit').val()),
+      parseFloat($('#particle_velocity_random_vend').val())
+    ];
+
+    options.velocity_random = tmp;
+
+    options.gravity = [
+      parseInt($('#particle_gravity_direction').val()),
+      parseFloat($('#particle_gravity').val())
+    ];
+
+    options.alpha = [
+      parseInt($('#particle_alpha_init').val()),
+      parseFloat($('#particle_alpha_end').val())
+    ];
+
+    options.size = [
+      parseInt($('#particle_size_init').val()),
+      parseFloat($('#particle_size_end').val())
+    ];
+
+    options.max_life = [
+      parseInt($('#particle_max_life_init').val()),
+      parseFloat($('#particle_max_life_end').val())
+    ];
+
+    options.color = $('#particle_color').val();
+
+    particle = new Particles(0,0,'simple',options);
+  }
+
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext('2d',true);
+  ctx.imageSmoothingEnabled = false;
+
+  var main = {
+    gameview : {
+      loop : new GameLoop(function(){
+        main.gameview.Update();
+      }),
+      Update : function(){
+          if(particle != undefined){
+            particle.Update();
+          }
+          ctx.fillStyle = "#000";
+          ctx.fillRect(0,0,500,500);
+          ctx.save();
+            ctx.translate(250,250);
+            ctx.scale(4,4);
+            monigote.Draw(ctx,0,0);
+            if(particle != undefined){
+              particle.Draw(ctx);
+            }
+          ctx.restore();
+      }
+    },
+    resources : new Resources()
+  }
+
+  var particle;
+  var assets_version = 1;
+  var monigote = new Monigote({});
+  monigote.setAnim("idle");
+
+  main.gameview.loop.Start();
+
+  $(function(){
+    $('form').find('input,select').each(function(){
+      $(this).change(function(){
+        updateParticle();
+      });
+    });
+    updateParticle();
+  });
+</script>
