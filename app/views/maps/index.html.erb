@@ -1,0 +1,378 @@
+<div class="col-body-content grid_12">
+  <canvas id="canvas"></canvas>
+</div>
+
+<div class="window" id="window_load">
+  <div class="window-header">Load Map</div>
+  <div class="window-body">
+    <div class="window-scroll">
+      <table class="selectable" id ="table_load">
+        <tbody>
+          <% all_maps.each do |m| %>
+            <tr data-id="<%= m.id %>">
+              <td><%= m.id %></td>
+              <td><%= m.name %></td>
+              <td><%= m.height %></td>
+              <td><%= m.width %></td>
+              <td><%= m.updated_at.strftime("%Y/%d/%m %H:%m") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="window-sep"></div>
+    <div class="window-row" style="text-align:right;">
+      <button class="btn btn-default" onclick="closeWindow();">Cancel</button>
+      <button class="btn btn-success" onclick="Load()">Load</button>
+    </div>
+  </div>
+</div>
+
+<div class="window" id="window_add_object">
+  <div class="window-header">Add Object</div>
+  <div class="window-body">
+    <div class="window-scroll">
+      <table class="selectable" id="table_add">
+        <tbody>
+          <% GameObject::KINDS.each do |k,v| %>
+            <tr data-kind="<%= k %>">
+              <td><%= k %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="window-sep"></div>
+    <div class="window-row" style="text-align:right;">
+      <button class="btn btn-default" onclick="closeWindow();">Cancel</button>
+      <button class="btn btn-success" onclick="AddObject()">Add Object</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var kind_objects = JSON.parse('<%= raw GameObject::KINDS.to_json %>');
+  var cursor_tiles = [0,0];
+  var cursor_selected = [36,36];
+  var img_tiles = new Image();
+  var canvas_tiles;
+  var ctx_tiles;
+  var current_tool;
+
+  var cursor = [0,0];
+  var canvas = $('#canvas')[0];
+  var ctx = canvas.getContext('2d',true);
+  var base = [];
+  var base_top = [];
+  var base_shadow = [];
+  <% if @objects %>
+    var objects = JSON.parse('<%= raw @objects.to_json %>');
+  <% else %>
+    var objects = {};
+  <% end %>
+
+  var base_bitmap = new Image();
+  var base_bitmap_shadow = new Image();
+
+  function changeCanvasTiles(n){
+    img_tiles.src = "/files/tiles/" + n;
+    img_tiles.onload = function(){
+      $(canvas_tiles).attr('height',img_tiles.height * 3);
+      reDrawCanvasTiles();
+      reDrawCanvas();
+    };
+  }
+  function reDrawCanvas(){
+    ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    for(var i = 0; i < base.length; i++){
+      for(var j = 0; j < base[i].length; j++){
+        var x = i * 36;
+        var y = j * 36;
+        var x_tile = base[i][j] - Math.floor(base[i][j] / 10) * 10;
+        var y_tile = Math.floor(base[i][j] / 10);
+
+        ctx.drawImage(base_bitmap,x_tile * 12,y_tile * 12,12,12,x,y,36,36);
+      }
+    }
+    for(var i = 0; i < base_top.length; i++){
+      for(var j = 0; j < base_top[i].length; j++){
+        var x = i * 36;
+        var y = j * 36;
+        var x_tile = base_top[i][j] - Math.floor(base_top[i][j] / 10) * 10;
+        var y_tile = Math.floor(base_top[i][j] / 10);
+
+        ctx.drawImage(base_bitmap,x_tile * 12,y_tile * 12,12,12,x,y,36,36);
+      }
+    }
+    for(var i = 0; i < base_shadow.length; i++){
+      for(var j = 0; j < base_shadow[i].length; j++){
+        var x = i * 36;
+        var y = j * 36;
+        var x_tile = base_shadow[i][j] - Math.floor(base_shadow[i][j] / 10) * 10;
+        var y_tile = Math.floor(base_shadow[i][j] / 10);
+
+        ctx.drawImage(base_bitmap_shadow,x_tile * 12,y_tile * 12,12,12,x,y,36,36);
+      }
+    }
+
+    ctx.fillStyle = "rgba(255,0,0,0.75)";
+    ctx.fillRect(cursor[0],cursor[1],36,36);
+  };
+  function reDrawCanvasTiles(){
+    ctx_tiles.imageSmoothingEnabled = false;
+    ctx_tiles.fillStyle = "#ff00ff";
+    ctx_tiles.fillRect(0,0,canvas_tiles.width,canvas_tiles.height);
+    ctx_tiles.drawImage(img_tiles,0,0,360,img_tiles.height * 3);
+
+    ctx_tiles.fillStyle = "rgba(255,0,0,0.75)";
+    ctx_tiles.fillRect(cursor_tiles[0],cursor_tiles[1],36,36);
+
+    ctx_tiles.fillStyle = "rgba(0,0,255,0.75)";
+    ctx_tiles.fillRect(cursor_selected[0],cursor_selected[1],36,36);
+  }
+  function changeTool(n,o){
+    $(o).parent().children().attr('class',null);
+    $(o).attr('class','active');
+    current_tool = n;
+
+    $('.col-right').hide();
+    if(current_tool == "tiles"){
+      changeCanvasTiles($('#map_tiles').val() + '.png');
+      $('.col-tiles').show();
+    }
+    if(current_tool == "tiles_top"){
+      changeCanvasTiles($('#map_tiles').val() + '.png');
+      $('.col-tiles').show();
+    }
+    if(current_tool == "shadow"){
+      changeCanvasTiles('shadow_1.png');
+      $('.col-tiles').show();
+    }
+    if(current_tool == "objects"){
+      $('.col-icons.col-right').show();
+      $('.col-list-form').show();
+    }
+    if(current_tool == "config"){
+      $('.col-form').show();
+    }
+    $(window).resize();
+  }
+  function AddObject(){
+    var selected = $('#table_add').find('tr.active').data('kind');
+    if(selected == undefined){ return; }
+
+    var o = {};
+    o.kind = selected;
+    o.x = 0;
+    o.y = 0;
+    o.id = Object.keys(objects).length + "-" + (new Date()).getTime() + "-" + Math.floor(Math.random() * 9999);
+
+    for(var attr in kind_objects[selected]){
+      if(kind_objects[selected][attr].constructor.name == "Number"){
+        o[attr] = 0;
+        continue;
+      }
+      if(kind_objects[selected][attr].constructor.name == "String"){
+        o[attr] = "";
+        continue;
+      }
+      o[attr] = kind_objects[selected][attr][0];
+    }
+
+    objects[o.id] = o;
+    reLoadObjects();
+
+    $('#dropdown-' + selected).click();
+    SelectItem(o.id);
+    closeWindow();
+  }
+  function reLoadObjects(){
+    var process = {};
+    $('.dropsdown').remove();
+    $('.dropsitems').remove();
+
+    for(var i in objects){
+      if(process[objects[i].kind] == undefined){
+        process[objects[i].kind] = 1;
+        var tmp = $('.list').find('#example-head').clone().insertBefore('#example-head');
+        tmp.attr('data-toggle','dropitems-' + objects[i].kind);
+        tmp.attr('id','dropdown-' + objects[i].kind);
+        tmp.addClass('dropsdown');
+        tmp.show();
+        tmp.html(objects[i].kind);
+
+        tmp = $('.list').find('#example-list').clone().insertAfter(tmp);
+        tmp.addClass('dropsitems');
+        tmp.attr('id','dropitems-' + objects[i].kind)
+        tmp.hide();
+      }
+      var tmp = $('.list').find('#example-item').clone().appendTo('#dropitems-' + objects[i].kind + '>ul');
+      tmp.removeAttr('id');
+      tmp.addClass('items');
+      tmp.attr('data-id',objects[i].id);
+      tmp.attr('onclick',"SelectItem('" + objects[i].id + "')");
+      tmp.html(objects[i].kind);
+    }
+
+    $('.dropdown').click(function(){
+      var t = $(this).data('toggle');
+      $(this).parent().find('#' + t).toggle();
+    });
+  }
+  function SelectItem(n){
+    $('.items').removeClass('active');
+    $('.items[data-id="' + n + '"]').addClass('active');
+
+    $('.col-list-form').find('.list').scrollTop($('.items[data-id="' + n + '"]').offset().top);
+
+    $('#object_selected').val(n);
+    $('.form-item').remove();
+
+    var o = objects[n];
+    for(var attr in kind_objects[o.kind]){
+
+      if(kind_objects[o.kind][attr].constructor.name == "Number"){
+        var tmp = $('#example-input-number').clone().appendTo('.col-list-form>.form');
+        tmp.find('input').val(o[attr]);
+      }
+      if(kind_objects[o.kind][attr].constructor.name == "String"){
+        var tmp = $('#example-input-text').clone().appendTo('.col-list-form>.form');
+        tmp.find('input').val(o[attr]);
+      }
+      if(kind_objects[o.kind][attr].constructor.name == "Array"){
+        var tmp = $('#example-input-select').clone().appendTo('.col-list-form>.form');
+        for(var i = 0; i < kind_objects[o.kind][attr].length; i++){
+          var h = '<option value="' + kind_objects[o.kind][attr][i] + '">';
+          h += kind_objects[o.kind][attr][i];
+          h += "</option>";
+          tmp.find('select').append(h);
+        }
+      }
+
+      tmp.attr('id',attr);
+      tmp.show();
+      tmp.addClass('form-item');
+      tmp.find('label').html(attr);
+
+      $(tmp.children()[1]).change(function(){
+        var id = $('#object_selected').val();
+        var attr = $(this).parent().attr('id');
+        var val = $(this).val();
+
+        if(kind_objects[objects[id].kind][attr].constructor.name == "Number"){
+          objects[id][attr] = parseFloat(val);
+          return true;
+        }
+        objects[id][attr] = val;
+      });
+    }
+  }
+  function Resize(){
+    var width = parseInt($('#map_width').val()) * 36;
+    var height = parseInt($('#map_height').val()) * 36;
+
+    var grid_tmp = [];
+
+    for(var i = 0; i < width/36; i++){
+      grid_tmp.push([]);
+      for(var j = 0; j < height/36; j++){
+        grid_tmp[i].push(0);
+        if(base[i] != undefined){
+          if(base[i][j] != undefined){
+            grid_tmp[i][j] = base[i][j];
+          }
+        }
+      }
+    }
+    base = grid_tmp;
+
+    $('.col-body-content').width(width);
+    $('.col-body-content').height(height);
+
+    $('#canvas').attr('width',width);
+    $('#canvas').attr('height',height);
+  }
+  function reLoad(){
+    base = JSON.parse($('#map_base_tiles').val());
+    base_top = JSON.parse($('#map_base_top_tiles').val());
+    base_shadow = JSON.parse($('#map_base_shadow').val());
+    base_bitmap.src = "/files/tiles/" + $('#map_tiles').val() + '.png';
+    base_bitmap_shadow.src = "/files/tiles/shadow_1.png";
+
+    Resize();
+    reLoadObjects();
+    reDrawCanvas();
+  }
+  function Save(){
+    $('#map_base_tiles').val(JSON.stringify(base));
+    $('#map_base_top_tiles').val(JSON.stringify(base_top));
+    $('#map_base_shadow').val(JSON.stringify(base_shadow));
+    $('#objects').val(JSON.stringify(objects));
+    $('form').submit();
+  }
+  function Load(){
+    var selected = $('#table_load').find('tr.active').data('id');
+    if(selected == undefined){ return; }
+
+    top.location = "/maps/" + selected + "/map";
+  }
+  $(function(){
+    canvas_tiles = $('#col-tiles').find('canvas')[0];
+    ctx_tiles = canvas_tiles.getContext("2d");
+    ctx_tiles.imageSmoothingEnabled = false;
+
+    $(canvas_tiles).mousemove(function(e){
+      var x = Math.floor(e.offsetX/36) * 36;
+      var y = Math.floor(e.offsetY/36) * 36;
+      cursor_tiles = [x,y];
+      reDrawCanvasTiles();
+    });
+    $(canvas_tiles).click(function(e){
+      var x = Math.floor(e.offsetX/36) * 36;
+      var y = Math.floor(e.offsetY/36) * 36;
+      cursor_selected = [x,y];
+      reDrawCanvasTiles();
+    });
+
+    $(canvas).mousemove(function(e){
+      var x = Math.floor(e.offsetX/36) * 36;
+      var y = Math.floor(e.offsetY/36) * 36;
+      cursor = [x,y];
+      reDrawCanvas();
+    });
+    $(canvas).click(function(e){
+      var x = Math.floor(e.offsetX/36);
+      var y = Math.floor(e.offsetY/36);
+
+      var tile = cursor_selected[0]/36 + (cursor_selected[1]/36 * 10);
+      if(current_tool == "tiles"){
+        base[x][y] = tile;
+      }
+      if(current_tool == "tiles_top"){
+        base_top[x][y] = tile;
+      }
+      if(current_tool == "shadow"){
+        base_shadow[x][y] = tile;
+      }
+
+      reDrawCanvas();
+    });
+
+    $('#map_width,#map_height').change(function(){
+      Resize();
+      reDrawCanvas();
+    })
+    $('#map_tiles').change(function(){
+      base_bitmap.src = "/files/tiles/" + $('#map_tiles').val() + '.png';
+      changeCanvasTiles($(this).val() + ".png");
+    });
+
+    $($('.col-icons.col-left').children()[3]).click();
+    reLoad();
+
+    $(window).resize();
+  });
+</script>

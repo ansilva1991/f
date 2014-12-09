@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fwcdvdxcwcw</title>
+  <title>Editor</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'font-awesome' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -14,7 +14,7 @@
 <div class="body">
   <% if @left %>
     <% @left.each do |i| %>
-      <div class="<%= i[:class_html] %>">
+      <div class="<%= i[:class_html] %> col-left">
         <%= render i[:content] %>
       </div>
     <% end %>
@@ -24,30 +24,83 @@
   </div>
   <% if @right %>
     <% @right.each do |i| %>
-      <div class="<%= i[:class_html] %>">
+      <div class="<%= i[:class_html] %> col-right">
         <%= render i[:content] %>
       </div>
     <% end %>
   <% end %>
 </div>
+<div class="notification"></div>
 <script type="text/javascript">
   $(window).resize(function(){
     var tmp_total = 0;
 
     $('.body').children().each(function(){
-      $(this).height($(this).parent().height() - 2);
-      var w = $(this).width() + 2;
-      var c = $(this).attr('class');
+      if( $(this).css('display') != 'none'){
+        $(this).height($(this).parent().height() - 2);
+        var w = $(this).width() + 2;
+        var c = $(this).attr('class');
 
-      if(c != 'col-body'){
-        tmp_total += w
+        if(c.split(' ')[0] == 'col-list-form'){
+          $(this).children().each(function(){
+            $(this).height($(this).parent().height() * 0.5 );
+          });
+        }
+        if(c != 'col-body'){
+          tmp_total += w
+        }
       }
     });
     $('.col-body').css({'width' : $(window).innerWidth() - tmp_total });
 
     $('.col-body-content').css({ 'margin-top' : $('.col-body').height() * 0.5 - $('.col-body-content').height() * 0.5 })
   });
+  $('table.selectable').find('tr').each(function(){
+    $(this).click(function(){
+      $(this).parent().children().attr('class','null');
+      $(this).attr('class','active');
+    });
+  });
+  $('.dropdown').click(function(){
+    var t = $(this).data('toggle');
+    $(this).parent().find('#' + t).toggle();
+  });
   $(window).resize();
+
+  var notif;
+  function Notification(msj){
+    $('.notification').html(msj).css({
+      'display' : 'block',
+      'opacity' : 0,
+      'bottom' : '-50px'
+    });
+    $('.notification').stop(true).animate({
+      'opacity' : 1,
+      'bottom' : 50
+    },500,function(){
+      clearTimeout(notif);
+      notif = setTimeout(function(){
+        $('.notification').fadeOut();
+      },1000);
+    });
+  }
+  function Window(n){
+    $('#' + n).css({
+      'display' : 'block',
+      'opacity' : 0,
+      'margin-top' : - $('#' + n).height() * 0.5,
+      'top' : 0
+    }).stop(true).animate({
+      'opacity' : 1,
+      'top' : '50%'
+    },500);
+  }
+  function closeWindow(){
+    $('.window').hide();
+  }
+  <% if flash[:notice] %>
+    Notification("<%= raw flash[:notice] %>");
+  <% end %>
 </script>
 </body>
 </html>

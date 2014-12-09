@@ -1,0 +1,23 @@
+<%= form_for @map do |f| %>
+  <input type="hidden" id="objects" name="objects">
+  <%= f.hidden_field :base_tiles %>
+  <%= f.hidden_field :base_top_tiles %>
+  <%= f.hidden_field :base_shadow %>
+  <div class="item">
+    <%= f.label 'Map Name' %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="item">
+    <%= f.label 'Size' %>
+    <div class="group_inputs group_inputs_2">
+      <%= f.label 'W' %>
+      <%= f.number_field :width %>
+      <%= f.label 'H' %>
+      <%= f.number_field :height %>
+    </div>
+  </div>
+  <div class="item">
+    <%= f.label 'Tile Set' %>
+    <%= f.select :tiles, collect_tiles %>
+  </div>
+<% end %>

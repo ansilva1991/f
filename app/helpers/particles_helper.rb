@@ -5,4 +5,8 @@ module ParticlesHelper
       ["Rect","rect"]
     ]
   end
+
+  def all_particles
+    Particle.all
+  end
 end

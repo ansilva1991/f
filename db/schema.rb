@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206222746) do
+ActiveRecord::Schema.define(version: 20141208224935) do
+
+  create_table "game_objects", force: true do |t|
+    t.integer  "map_id"
+    t.text     "options"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "maps", force: true do |t|
+    t.string   "name"
+    t.text     "base_tiles",     limit: 2147483647
+    t.text     "base_top_tiles", limit: 2147483647
+    t.text     "base_shadow",    limit: 2147483647
+    t.integer  "width",                             default: 10
+    t.integer  "height",                            default: 10
+    t.string   "tiles"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "particles", force: true do |t|
     t.string   "name"

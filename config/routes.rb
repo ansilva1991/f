@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :maps, only: [:index,:create,:update] do
+    member do
+      get 'map' => "maps#index"
+    end
+  end
+
   resources :particles, only: [:index,:create,:update] do
     member do
       get 'particle' => "particles#index"

@@ -62,7 +62,7 @@ function Map(){
       for(var i = Math.floor(init_h); i <= Math.ceil(end_h); i++){
         for(var j = Math.floor(init_v); j <= Math.ceil(end_v);j++){
           var x = i*this.grid;
-          var y = j*this.grid ;
+          var y = j*this.grid;
           var distance = main.gameview.etapa.objects.distanceTo( { x : x, y : y }, main.gameview.etapa.objects.players[0] )/16;
           if(distance <= this.light_ratio){
             var x_tile = this.floor_tiles[i][j] - Math.floor(this.floor_tiles[i][j] / 10) * 10;

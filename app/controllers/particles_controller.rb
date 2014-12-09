@@ -11,13 +11,13 @@ class ParticlesController < ApplicationController
 
   def create
      @particle = Particle.create( params[:particle].to_hash )
-     redirect_to particle_particle_path(@particle)
+     redirect_to particle_particle_path(@particle), :notice => "<i class='fa fa-check'></i> Create succefully"
   end
 
   def update
     @particle = Particle.find(params[:id])
     @particle.update_attributes( params[:particle].to_hash )
-    redirect_to particle_particle_path(@particle)
+    redirect_to particle_particle_path(@particle), :notice => "<i class='fa fa-check'></i> Save succefully"
   end
 
   def set_tools
