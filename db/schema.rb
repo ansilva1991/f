@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20141208224935) do
     t.text     "base_tiles",     limit: 2147483647
     t.text     "base_top_tiles", limit: 2147483647
     t.text     "base_shadow",    limit: 2147483647
+    t.text     "base_mask",      limit: 2147483647
     t.integer  "width",                             default: 10
     t.integer  "height",                            default: 10
     t.string   "tiles"

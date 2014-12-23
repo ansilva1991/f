@@ -52,6 +52,10 @@
 
 <script type="text/javascript">
   var kind_objects = JSON.parse('<%= raw GameObject::KINDS.to_json %>');
+  var tile_objects = {
+    NPC : 0,
+    ObjectPush : 1
+  }
   var cursor_tiles = [0,0];
   var cursor_selected = [36,36];
   var img_tiles = new Image();
@@ -65,6 +69,7 @@
   var base = [];
   var base_top = [];
   var base_shadow = [];
+  var base_mask = [];
   <% if @objects %>
     var objects = JSON.parse('<%= raw @objects.to_json %>');
   <% else %>
@@ -73,6 +78,13 @@
 
   var base_bitmap = new Image();
   var base_bitmap_shadow = new Image();
+  var objects_bitmap = new Image();
+  objects_bitmap.src = "/assets/objects.png";
+  var mask_bitmap = new Image();
+  mask_bitmap.src = "/assets/mask.png";
+
+  objects_bitmap.onload = function(){ reDrawCanvas(); };
+  mask_bitmap.onload = function(){ reDrawCanvas(); };
 
   function changeCanvasTiles(n){
     img_tiles.src = "/files/tiles/" + n;
@@ -118,6 +130,23 @@
       }
     }
 
+    for(var i = 0; i < base_mask.length; i++){
+      for(var j = 0; j < base_mask[i].length; j++){
+        var x = i * 36;
+        var y = j * 36;
+        if(base_mask[i][j] == 1){
+          ctx.drawImage(mask_bitmap,x,y);
+        }
+      }
+    }
+
+    for(var index in objects){
+      var x = objects[index].x * 36;
+      var y = objects[index].y * 36;
+
+      ctx.drawImage(objects_bitmap,tile_objects[objects[index].kind] * 36,0,36,36,x,y,36,36);
+    }
+
     ctx.fillStyle = "rgba(255,0,0,0.75)";
     ctx.fillRect(cursor[0],cursor[1],36,36);
   };
@@ -142,17 +171,20 @@
     if(current_tool == "tiles"){
       changeCanvasTiles($('#map_tiles').val() + '.png');
       $('.col-tiles').show();
+      $('[data-content="col_tiles_icons"]').show();
     }
     if(current_tool == "tiles_top"){
       changeCanvasTiles($('#map_tiles').val() + '.png');
       $('.col-tiles').show();
+      $('[data-content="col_tiles_icons"]').show();
     }
     if(current_tool == "shadow"){
       changeCanvasTiles('shadow_1.png');
       $('.col-tiles').show();
+      $('[data-content="col_tiles_icons"]').show();
     }
     if(current_tool == "objects"){
-      $('.col-icons.col-right').show();
+      $('[data-content="form_icons"]').show();
       $('.col-list-form').show();
     }
     if(current_tool == "config"){
@@ -189,6 +221,31 @@
     SelectItem(o.id);
     closeWindow();
   }
+  function cloneObject(){
+    var id = $('#object_selected').val();
+    if(id == ""){ return false;}
+
+    var new_id = Object.keys(objects).length + "-" + (new Date()).getTime() + "-" + Math.floor(Math.random() * 9999);
+    var new_object = {};
+    for(var index in objects[id]){
+      new_object[index] = objects[id][index];
+    }
+    new_object.id = new_id;
+
+    objects[new_id] = new_object;
+    reLoadObjects();
+    $('#dropdown-' + objects[new_id].kind).click();
+    SelectItem(new_id);
+    reDrawCanvas();
+  }
+  function eraseObject(){
+    var id = $('#object_selected').val();
+    if(id == ""){ return false;}
+
+    delete objects[id];
+    reLoadObjects();
+    reDrawCanvas();
+  }
   function reLoadObjects(){
     var process = {};
     $('.dropsdown').remove();
@@ -202,7 +259,7 @@
         tmp.attr('id','dropdown-' + objects[i].kind);
         tmp.addClass('dropsdown');
         tmp.show();
-        tmp.html(objects[i].kind);
+        tmp.html(objects[i].kind + ' <i class="fa fa-caret-down"></i>');
 
         tmp = $('.list').find('#example-list').clone().insertAfter(tmp);
         tmp.addClass('dropsitems');
@@ -264,11 +321,41 @@
 
         if(kind_objects[objects[id].kind][attr].constructor.name == "Number"){
           objects[id][attr] = parseFloat(val);
+          reDrawCanvas();
           return true;
         }
         objects[id][attr] = val;
+        reDrawCanvas();
       });
+      reDrawCanvas();
     }
+  }
+  function paintAll(){
+    var base_tmp;
+
+    var tile = cursor_selected[0]/36 + (cursor_selected[1]/36 * 10);
+
+    if(current_tool == "tiles"){
+      base_tmp = base;
+    }
+    if(current_tool == "tiles_top"){
+      base_tmp = base_top;
+    }
+    if(current_tool == "shadow"){
+      base_tmp = base_shadow;
+    }
+    if(current_tool == "mask"){
+      base_tmp = base_mask;
+      tile = 1;
+    }
+
+    for(var i = 0; i < base_tmp.length; i++){
+      for(var j = 0; j < base_tmp[i].length; j++){
+        base_tmp[i][j] = tile;
+      }
+    }
+
+    reDrawCanvas();
   }
   function Resize(){
     var width = parseInt($('#map_width').val()) * 36;
@@ -299,6 +386,7 @@
     base = JSON.parse($('#map_base_tiles').val());
     base_top = JSON.parse($('#map_base_top_tiles').val());
     base_shadow = JSON.parse($('#map_base_shadow').val());
+    base_mask = JSON.parse($('#map_base_mask').val());
     base_bitmap.src = "/files/tiles/" + $('#map_tiles').val() + '.png';
     base_bitmap_shadow.src = "/files/tiles/shadow_1.png";
 
@@ -310,6 +398,7 @@
     $('#map_base_tiles').val(JSON.stringify(base));
     $('#map_base_top_tiles').val(JSON.stringify(base_top));
     $('#map_base_shadow').val(JSON.stringify(base_shadow));
+    $('#map_base_mask').val(JSON.stringify(base_mask));
     $('#objects').val(JSON.stringify(objects));
     $('form').submit();
   }
@@ -357,7 +446,24 @@
       if(current_tool == "shadow"){
         base_shadow[x][y] = tile;
       }
-
+      if(current_tool == "mask"){
+        if(base_mask[x][y] == 0){
+          base_mask[x][y] = 1;
+        }else{
+          base_mask[x][y] = 0;
+        }
+      }
+      if(current_tool == 'objects'){
+        for(var index in objects){
+          if((objects[index].x == x)&&(objects[index].y == y)){
+            if($('#dropitems-' + objects[index].kind).css('display') != 'list-item'){
+              $('#dropdown-' + objects[index].kind).click();
+            }
+            SelectItem(objects[index].id);
+            break;
+          }
+        }
+      }
       reDrawCanvas();
     });
 
@@ -370,7 +476,7 @@
       changeCanvasTiles($(this).val() + ".png");
     });
 
-    $($('.col-icons.col-left').children()[3]).click();
+    $($('.col-icons.col-left').children()[0]).click();
     reLoad();
 
     $(window).resize();

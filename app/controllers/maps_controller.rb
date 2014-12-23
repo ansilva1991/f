@@ -32,6 +32,8 @@ class MapsController < ApplicationController
         content: 'left_icons'},
     ]
     @right = [
+      { class_html: 'col-icons',
+        content: 'col_tiles_icons'},
       { class_html: 'col-tiles',
         content: 'col_tiles'},
       { class_html: 'col-icons',

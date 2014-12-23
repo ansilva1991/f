@@ -6,6 +6,7 @@ class Map < ActiveRecord::Base
     self.base_tiles = Array.new(10){ Array.new(10){0} }
     self.base_top_tiles = Array.new(10){ Array.new(10){0} }
     self.base_shadow = Array.new(10){ Array.new(10){0} }
+    self.base_mask = Array.new(10){ Array.new(10){0} }
   end
   def process_objects objects
     self.game_objects.destroy_all
