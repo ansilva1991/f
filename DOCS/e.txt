@@ -1,9 +1,5 @@
-- Mapas
-  + Capas
-  + Objetos
+- Mapas HECHO
+  + Capas HECHO
+  + Objetos HECHO
 - Particulas HECHO
-  + Opciones
-- Objetos
-  + Opciones
-- Skins
-  + Opciones
+  + Opciones HECHO

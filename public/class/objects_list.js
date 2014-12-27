@@ -63,6 +63,9 @@ function ObjectsList(){
       if(options.except != undefined){
         if(this.objects[i].id == options.except){ continue; }
       }
+
+      if(!this.objects[i].solid){ continue; }
+
       var x = Math.floor(this.objects[i].x / main.gameview.etapa.map.grid);
       var y = Math.floor(this.objects[i].y / main.gameview.etapa.map.grid);
 
@@ -76,6 +79,8 @@ function ObjectsList(){
       if(options.except != undefined){
         if(this.objects[i].id == options.except){ continue; }
       }
+      if(!this.objects[i].solid){ continue; }
+
       var x1 = this.objects[i].x - this.objects[i].h_mask;
       var y1 = this.objects[i].y - this.objects[i].v_mask;
       var x2 = this.objects[i].x + this.objects[i].h_mask;

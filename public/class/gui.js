@@ -48,10 +48,12 @@ function GUI(){
 
     return { x : x , y : y };
   };
-  this.ifIn = function(c,e){
-    if((c.x > e.x)&&(c.x < e.x + e.width)&&(c.y > e.y)&&(c.y < e.y + e.height)){
+  this.ifIn = function(c,e,offset){
+    if((c.x > e.x - offset)&&(c.x < e.x + e.width + offset)&&(c.y > e.y - offset)&&(c.y < e.y + e.height + offset)){
+      console.log('true');
       return true;
     }
+    console.log('false');
     return false;
   };
   this.Mouseclick = function(identifier,x,y){
@@ -61,7 +63,7 @@ function GUI(){
     if(this.box_text.show){ return false; }
     var c = this.convertClick(x,y);
     for(var index in this.elements){
-      if(this.ifIn( c , this.elements[index] )){
+      if(this.ifIn( c , this.elements[index] , 10 )){
         this.elements[index].Click(identifier,c.x,c.y);
         return true;
       }

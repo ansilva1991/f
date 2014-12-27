@@ -30,10 +30,10 @@ var data_maps = {
         }
       },
       {
-        type : ObjectPush,
+        type : ObjectPick,
         options : {
-          x : 48,
-          y : 64,
+          x : 24,
+          y : 24,
           type : 0
         }
       }

@@ -5,7 +5,7 @@
 - Objetos arrojables y/o rompibles.
 - Slider Button A.
 - Presentation Object.
-- MAP EDITOR!!!
+- MAP EDITOR!!! HECHO
 
 - Establecer Controles
   - GamePad

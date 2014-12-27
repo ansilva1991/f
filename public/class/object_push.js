@@ -13,6 +13,8 @@ function ObjectPush(options){
 
   this.move_to;
 
+  this.solid = true;
+
   this.status = "idle";
 
   this.Start = function(){

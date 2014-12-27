@@ -65,6 +65,8 @@ function Monigote(options){
 
   this.gameview;
 
+  this.no_hands = false;
+
   this.setAnim = function(anim){
     if(anim != this.anim){
       this.rot_body = 0;
@@ -1030,6 +1032,7 @@ function Monigote(options){
     this.setAnim(tmp_anim);
   }
 this.drawShield = function(canvas){
+  if(this.no_hands){ return; }
   //Escudo Una Mano Izquierda
   canvas.save();
     canvas.translate( -2 + this.x_offset_arm_izq, -4 + this.y_offset_arm_izq );
@@ -1038,6 +1041,7 @@ this.drawShield = function(canvas){
   canvas.restore();
 };
 this.drawBigSword = function(canvas){
+  if(this.no_hands){ return; }
   //Arma Dos Mano
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );
@@ -1047,6 +1051,7 @@ this.drawBigSword = function(canvas){
   canvas.restore();
 };
 this.drawSwordRight = function(canvas){
+  if(this.no_hands){ return; }
   //Arma Una Mano Derecha
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );
@@ -1055,6 +1060,7 @@ this.drawSwordRight = function(canvas){
   canvas.restore();
 };
 this.drawSwordLeft = function(canvas){
+  if(this.no_hands){ return; }
   //Arma Una Mano Izquierda
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_izq, -4 + this.y_offset_arm_izq );
@@ -1064,6 +1070,7 @@ this.drawSwordLeft = function(canvas){
   canvas.restore();
 };
 this.drawGunLeft = function(canvas){
+  if(this.no_hands){ return; }
   //Arma a Distancia una Mano
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_izq, -4 + this.y_offset_arm_izq );
@@ -1072,6 +1079,7 @@ this.drawGunLeft = function(canvas){
   canvas.restore();
 };
 this.drawGunRight = function(canvas){
+  if(this.no_hands){ return; }
   //Arma a Distancia una Mano
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );
@@ -1080,6 +1088,7 @@ this.drawGunRight = function(canvas){
   canvas.restore();
 };
 this.drawBigGun = function(canvas){
+  if(this.no_hands){ return; }
   //Arma a Distancia Dos Mano
     canvas.save();
       canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );
@@ -1089,6 +1098,7 @@ this.drawBigGun = function(canvas){
     canvas.restore();
 };
 this.drawBow = function(canvas){
+  if(this.no_hands){ return; }
   //Arma a Distancia Dos Mano
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );
@@ -1098,6 +1108,7 @@ this.drawBow = function(canvas){
   canvas.restore();
 };
 this.drawProyectile = function(canvas){
+  if(this.no_hands){ return; }
   //Flecha
   canvas.save();
     canvas.translate( -2 + this.x_offset_arm_izq, -4 + this.y_offset_arm_izq );
@@ -1106,6 +1117,7 @@ this.drawProyectile = function(canvas){
   canvas.restore();
 };
 this.drawCane = function(canvas){
+  if(this.no_hands){ return; }
   //Bastones
   canvas.save();
     canvas.translate( 2 + this.x_offset_arm_der, -4 + this.y_offset_arm_der );

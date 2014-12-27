@@ -33,7 +33,7 @@ function Main()
     var type = e.type;
     var x = e.changedTouches[0].clientX;
     var y = e.changedTouches[0].clientY;
-
+    console.log(type);
     if(type == 'touchstart')
     {
       main.gameview.Mouseclick(identifier, x, y);
