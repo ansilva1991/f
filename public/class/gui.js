@@ -6,6 +6,7 @@ function GUI(){
 
   this.gamePad;
   this.buttonA;
+  this.buttonB;
 
   this.Start = function(){
     this.elements.push(new GUI_GamePad());
@@ -14,6 +15,8 @@ function GUI(){
     this.elements.push(new GUI_GameButtonA());
     this.buttonA = this.elements[this.elements.length - 1];
 
+    this.elements.push(new GUI_GameButtonB());
+    this.buttonB = this.elements[this.elements.length - 1];
 
     for(var index in this.elements){
       this.elements[index].Start();
@@ -63,7 +66,7 @@ function GUI(){
     if(this.box_text.show){ return false; }
     var c = this.convertClick(x,y);
     for(var index in this.elements){
-      if(this.ifIn( c , this.elements[index] , 10 )){
+      if(this.ifIn( c , this.elements[index] , 0 )){
         this.elements[index].Click(identifier,c.x,c.y);
         return true;
       }
@@ -223,8 +226,77 @@ function GUI_GameButtonA(){
   this.ClickCancel = function(identifier){
     if(this.identifier_click == identifier){
       this.identifier_click = -1;
-      if(this.time_click + 100 > (new Date()).getTime()){
+      if(this.time_click + 200 > (new Date()).getTime()){
         main.gameview.etapa.objects.players[0].gameButtonA();
+      }
+    }
+  };
+  this.forceCancelClick = function(){
+    this.identifier_click = -1;
+  }
+}
+function GUI_GameButtonB(){
+  this.x = 0;
+  this.y = 0;
+  this.width = -1;
+  this.height = -1;
+
+  this.bitmap = main.resources.load_resource({
+    name : 'button_a',
+    type : 'gui',
+    type_file : 'png',
+  });
+  this.bitmap_actions = main.resources.load_resource({
+    name : 'button_b_actions',
+    type : 'gui',
+    type_file : 'png',
+  });
+  this.x_start_click = -1;
+  this.y_start_click = -1;
+  this.identifier_click = -1;
+  this.time_click = 0;
+
+  this.current_action = 0;
+  this.active = false;
+
+  this.Start = function(){
+  };
+  this.Update = function(){
+    if((this.width == -1) && (this.bitmap.width > 0)){
+      this.width = this.bitmap.width;
+      this.height = this.bitmap.height;
+
+      this.x = (main.canvas.width / main.gameview.etapa.gui.scale) - this.width * 1.25;
+      this.y = (main.canvas.height / main.gameview.etapa.gui.scale) - this.height * 2.5;
+    }
+  };
+  this.Draw = function(ctx){
+    ctx.drawImage(this.bitmap,this.x, this.y);
+    if(this.active){
+      ctx.globalAlpha = 1;
+    }else{
+      ctx.globalAlpha = 0.5;
+    }
+    ctx.drawImage(this.bitmap_actions,15 * this.current_action,0,15,15,this.x, this.y,15,15);
+    ctx.globalAlpha = 1;
+  };
+  this.Click = function(identifier,x,y){
+    if(this.identifier_click == -1){
+      this.identifier_click = identifier;
+      this.x_start_click = x;
+      this.y_start_click = y;
+      this.time_click = (new Date()).getTime();
+    }
+  };
+  this.ClickMove = function(identifier,x,y){
+    if(this.identifier_click == identifier){
+    }
+  };
+  this.ClickCancel = function(identifier){
+    if(this.identifier_click == identifier){
+      this.identifier_click = -1;
+      if(this.time_click + 200 > (new Date()).getTime()){
+        main.gameview.etapa.objects.players[0].gameButtonB('defense');
       }
     }
   };

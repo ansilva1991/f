@@ -1,0 +1,90 @@
+<div class="list">
+</div>
+<div class="form">
+  <%= form_for @skeleton do |f| %>
+    <%= f.hidden_field :joints %>
+    <div class="item">
+      <%= f.label 'Name' %>
+      <%= f.text_field :name %>
+    </div>
+    <hr>
+    <div class="item joint_form">
+      <label>Joint Name</label>
+      <input id="joint_name" type="text">
+    </div>
+    <div class="item joint_form">
+      <label>Offset</label>
+      <div class="group_inputs group_inputs_3 joint_coordinates">
+        <label>X</label>
+        <input id="joint_x" type="number" value="0.0">
+        <label>Y</label>
+        <input id="joint_y" type="number" value="0.0">
+      </div>
+    </div>
+    <div class="item joint_form">
+      <label>Z</label>
+      <div class="group_inputs group_inputs_2 joint_coordinates">
+        <label>Down</label>
+        <input id="joint_z_down" type="number" value="0.0">
+        <label>Up</label>
+        <input id="joint_z_up" type="number" value="0.0">
+      </div>
+    </div>
+    <div class="item joint_form">
+      <label>Options</label>
+      <div class="group_inputs group_inputs_3 joint_coordinates">
+        <label>N</label>
+        <input id="joint_options_n" type="number" value="0.0">
+        <label>Y</label>
+        <input id="joint_options_y" type="number" value="0.0">
+        <label>S</label>
+        <input id="joint_options_sex_offset" type="number" value="0.0">
+      </div>
+    </div>
+    <div class="item joint_form">
+      <label>Image</label>
+      <select id="joint_image">
+      <%= options_for_select(collect_skins) %>
+      </select>
+    </div>
+    <div class="item joint_form">
+      <label>Image Scale</label>
+      <input id="image_scale" type="number" value="1">
+    </div>
+    <div class="item joint_form">
+      <label>Image Offset</label>
+      <div class="group_inputs group_inputs_2 joint_coordinates">
+        <label>X</label>
+        <input id="joint_image_offset_x" type="number" value="0.0">
+        <label>Y</label>
+        <input id="joint_image_offset_y" type="number" value="0.0">
+      </div>
+    </div>
+    <div class="item joint_form">
+      <label>Image Coordinates Down</label>
+      <div class="group_inputs group_inputs_4 joint_coordinates">
+        <label>X</label>
+        <input id="joint_image_x_down" type="number" value="0.0">
+        <label>Y</label>
+        <input id="joint_image_y_down" type="number" value="0.0">
+        <label>W</label>
+        <input id="joint_image_w_down" type="number" value="0.0">
+        <label>H</label>
+        <input id="joint_image_h_down" type="number" value="0.0">
+      </div>
+    </div>
+    <div class="item joint_form">
+      <label>Image Coordinates Up</label>
+      <div class="group_inputs group_inputs_4 joint_coordinates">
+        <label>X</label>
+        <input id="joint_image_x_up" type="number" value="0.0">
+        <label>Y</label>
+        <input id="joint_image_y_up" type="number" value="0.0">
+        <label>W</label>
+        <input id="joint_image_w_up" type="number" value="0.0">
+        <label>H</label>
+        <input id="joint_image_h_up" type="number" value="0.0">
+      </div>
+    </div>
+  <% end %>
+</div>

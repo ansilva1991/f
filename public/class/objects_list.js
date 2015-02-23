@@ -21,9 +21,10 @@ function ObjectsList(){
       }
       depths[this.objects[i].y].push(this.objects[i])
     }
-    for(var index in depths){
-      for(var i = 0; i < depths[index].length; i++){
-        depths[index][i].Draw(ctx);
+    var depths_keys = Object.keys(depths).sort();
+    for(var index in depths_keys){
+      for(var i = 0; i < depths[depths_keys[index]].length; i++){
+        depths[depths_keys[index]][i].Draw(ctx);
       }
     }
   };

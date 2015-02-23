@@ -5,4 +5,9 @@ module MapsHelper
   def all_maps
     Map.all
   end
+  def tiles_index_objects
+    resp = {}
+    GameObject::KINDS.each_with_index{|k,v| resp[k.first.to_s] = v }
+    resp
+  end
 end

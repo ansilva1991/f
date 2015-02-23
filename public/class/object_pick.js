@@ -2,6 +2,8 @@ function ObjectPick(options){
   this.x = options.x == undefined ? 0 : options.x;
   this.y = options.y == undefined ? 0 : options.y;
 
+  this.fragile = options.fragile == undefined ? false : options.fragile;
+
   this.h_mask = 6;
   this.v_mask = 6;
 
@@ -21,6 +23,8 @@ function ObjectPick(options){
   this.throw_gravity = 0.5;
 
   this.solid = true;
+  this.frame = 0;
+  this.step = 0;
 
   this.status = "idle";
 
@@ -67,31 +71,73 @@ function ObjectPick(options){
       this.offset_y = this.max_max_offset_y;
     }
     if(this.status == "throw"){
+      var x_axis = 0;
+      var y_axis = 0;
+
       if(this.throw_dir == 0){
-        this.x += this.throw_vel;
+        x_axis = 1;
       }
       if(this.throw_dir == 1){
-        this.y -= this.throw_vel;
+        y_axis = -1;
       }
       if(this.throw_dir == 2){
-        this.x -= this.throw_vel;
+        x_axis = -1;
       }
       if(this.throw_dir == 3){
-        this.y += this.throw_vel;
+        y_axis = 1;
       }
+
+      if(!main.gameview.etapa.getCollision(this.x + this.throw_vel * x_axis, this.y, {
+        except : this.id,
+        h_mask : this.h_mask,
+        v_mask : this.v_mask
+      })){
+        this.x += this.throw_vel * x_axis;
+      }
+      if(!main.gameview.etapa.getCollision(this.x, this.y + this.throw_vel * y_axis, {
+        except : this.id,
+        h_mask : this.h_mask,
+        v_mask : this.v_mask
+      })){
+        this.y += this.throw_vel * y_axis;
+      }
+
+      if(x_axis == 0){ this.x = Math.floor(this.x / main.gameview.etapa.map.grid) * main.gameview.etapa.map.grid + main.gameview.etapa.map.grid * 0.5; }
+      if(y_axis == 0){ this.y = Math.floor(this.y / main.gameview.etapa.map.grid) * main.gameview.etapa.map.grid + main.gameview.etapa.map.grid * 0.5; }
 
       this.offset_y += this.throw_v_vel;
       this.throw_v_vel -= this.throw_gravity;
 
       if(this.offset_y < 0){
         this.offset_y = 0;
-        this.status = "idle";
-        this.solid = true;
+        if(this.fragile){
+          this.status = "breaking";
+          this.solid = true;
+
+        }else{
+          this.status = "idle";
+          this.solid = true;
+        }
+      }
+    }
+    if(this.status == "breaking"){
+      this.x = Math.floor(this.x / main.gameview.etapa.map.grid) * main.gameview.etapa.map.grid + main.gameview.etapa.map.grid * 0.5;
+      this.y = Math.floor(this.y / main.gameview.etapa.map.grid) * main.gameview.etapa.map.grid + main.gameview.etapa.map.grid * 0.5;
+
+      this.step += 1;
+      if(this.step > 3){
+        this.frame += 1;
+        this.step = 0;
+      }
+      if(this.frame == 3){
+        this.solid = false;
+        this.status == "break";
+        this.frame = 2;
       }
     }
   };
   this.Draw = function(ctx){
-    ctx.drawImage(this.bitmap,this.x - 6,this.y - 18 - this.offset_y);
+    ctx.drawImage(this.bitmap,this.frame * 12, 0, 12, 24, this.x - 6, this.y - 18 - this.offset_y, 12, 24);
   };
   this.Pick = function(){
     this.max_offset_y = this.max_max_offset_y;

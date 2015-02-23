@@ -1,0 +1,428 @@
+<div class="col-body-content grid_12" style="width: 600px; height: 400px">
+  <canvas id="canvas" width="600" height="400"></canvas>
+</div>
+
+<div class="window" id="window_load">
+  <div class="window-header">Load Skeleton</div>
+  <div class="window-body">
+    <div class="window-scroll">
+      <table class="selectable" id ="table_load">
+        <tbody>
+          <% all_skeletons.each do |m| %>
+            <tr data-id="<%= m.id %>">
+              <td><%= m.id %></td>
+              <td><%= m.name %></td>
+              <td><%= m.updated_at.strftime("%Y/%d/%m %H:%m") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="window-sep"></div>
+    <div class="window-row" style="text-align:right;">
+      <button class="btn btn-default" onclick="closeWindow();">Cancel</button>
+      <button class="btn btn-success" onclick="Load()">Load</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var canvas = $('#canvas')[0];
+  var ctx = canvas.getContext('2d',true);
+
+  var end_list_joints = [];
+
+
+  <% if @skeleton.id %>
+    var joints = JSON.parse('<%= raw @skeleton.joints %>');
+  <% else %>
+    var joints = [{
+      name : "root",
+      id : "root",
+      x : 0,
+      y : 0,
+      z_down : 0,
+      z_up : 0,
+      rotate : 0,
+      image : {},
+      childrens : []
+    }];
+  <% end %>
+
+  var joints_reference = {};
+
+  var selected_joint = "root";
+
+  var center_root = [300,300];
+  var scale_skeleton = 6;
+
+  var skeleton_image = new Image();
+  skeleton_image.onload = reDraw;
+
+  var joint_image = new Image();
+  joint_image.src = "/assets/joint.png";
+  joint_image.onload = reDraw;
+
+  var joints_visible = true;
+
+  var up = false;
+  var left = 1;
+
+  function setImage(){
+    var src = "/files/sprites/" + $('#joint_image').val() + ".png";
+    skeleton_image.src = src;
+  }
+
+  function selectJoint(n){
+    selected_joint = n;
+
+    $('[data-joint]').removeClass("active");
+    $('[data-joint="' + n + '"]').addClass("active");
+
+    var j = joints_reference[n];
+
+    $('#joint_name').val(j.name);
+    $('#joint_x').val(j.x);
+    $('#joint_y').val(j.y);
+    $('#joint_z_down').val(j.z_down);
+    $('#joint_z_up').val(j.z_up);
+
+    $('.joint_form input, .joint_form select').attr('disabled','disabled');
+
+    if(j.name != "root"){
+      $('.joint_form input, .joint_form select').removeAttr('disabled');
+      $('#joint_image option[value="' + j.image.src + '"]').attr('selected','selected');
+      $('#joint_options_n').val(j.options.n);
+      $('#joint_options_y').val(j.options.y);
+      $('#joint_options_sex_offset').val(j.options.sex_offset);
+      $('#joint_image_x_down').val(j.image.x_down);
+      $('#joint_image_y_down').val(j.image.y_down);
+      $('#joint_image_w_down').val(j.image.w_down);
+      $('#joint_image_h_down').val(j.image.h_down);
+      $('#joint_image_x_up').val(j.image.x_up);
+      $('#joint_image_y_up').val(j.image.y_up);
+      $('#joint_image_w_up').val(j.image.w_up);
+      $('#joint_image_h_up').val(j.image.h_up);
+      $('#joint_image_offset_x').val(j.image.offset_x);
+      $('#joint_image_offset_y').val(j.image.offset_y);
+    }
+
+    setImage();
+    reDraw();
+  }
+
+  function eraseJoint(){
+    if(selected_joint == "root"){ return; }
+    var parent = joints_reference[joints_reference[selected_joint].parent];
+    parent.childrens.splice(parent.childrens.indexOf(joints_reference[selected_joint]),1);
+
+    updateList();
+    reDraw();
+  }
+
+  function addJoint(){
+    var id = (new Date()).getTime() + "-" + Math.round(Math.random() * 9999);
+
+    var new_joint = {
+      name : "joint" + Object.keys(joints_reference).length,
+      id : id,
+      x : 0,
+      y : 0,
+      z_down : 0,
+      z_up : 0,
+      rotate : 0,
+      image : {
+        src : joints_reference[selected_joint].image.src || "skin_humans_0",
+        x_down : joints_reference[selected_joint].image.x_down || 0,
+        y_down : joints_reference[selected_joint].image.y_down || 0,
+        w_down : joints_reference[selected_joint].image.w_down || 0,
+        h_down : joints_reference[selected_joint].image.h_down || 0,
+        x_up : joints_reference[selected_joint].image.x_up || 0,
+        y_up : joints_reference[selected_joint].image.y_up || 0,
+        w_up : joints_reference[selected_joint].image.w_up || 0,
+        h_up : joints_reference[selected_joint].image.h_up || 0,
+        offset_x : joints_reference[selected_joint].image.offset_x || 0,
+        offset_y : joints_reference[selected_joint].image.offset_y || 0
+      },
+      image_element : new Image(),
+      options: { n : 0, y: 0 , sex_offset : 0 },
+      childrens : [],
+      parent : selected_joint
+    };
+
+    joints_reference[id] = new_joint;
+    joints_reference[selected_joint].childrens.push(new_joint);
+
+    new_joint.image_element.src = "/files/sprites/" + new_joint.image.src + ".png";;
+    new_joint.image_element.onload = function(){
+      reDraw();
+    };
+
+    updateList();
+    reDraw();
+    selectJoint(id);
+    setImage();
+  }
+
+  function updateJoint(){
+    var j = joints_reference[selected_joint];
+
+    j.name = $('#joint_name').val();
+    j.x = parseInt($('#joint_x').val());
+    j.y = parseInt($('#joint_y').val());
+    j.z_down = parseInt($('#joint_z_down').val());
+    j.z_up = parseInt($('#joint_z_up').val());
+    j.image.src = $('#joint_image').val();
+    j.options.n = $('#joint_options_n').val();
+    j.options.y = $('#joint_options_y').val();
+    j.options.sex_offset = $('#joint_options_sex_offset').val();
+    j.image.x_down = $('#joint_image_x_down').val();
+    j.image.y_down = $('#joint_image_y_down').val();
+    j.image.w_down = $('#joint_image_w_down').val();
+    j.image.h_down = $('#joint_image_h_down').val();
+    j.image.x_up = $('#joint_image_x_up').val();
+    j.image.y_up = $('#joint_image_y_up').val();
+    j.image.w_up = $('#joint_image_w_up').val();
+    j.image.h_up = $('#joint_image_h_up').val();
+    j.image.offset_x = $('#joint_image_offset_x').val();
+    j.image.offset_y = $('#joint_image_offset_y').val();
+
+    j.image_element.src = "/files/sprites/" + j.image.src + ".png";
+
+    updateList();
+    reDraw();
+    selectJoint(j.id);
+  }
+
+  function recursiveJoints(joint,options){
+    var dist = Math.sqrt(Math.pow(joint.x,2) + Math.pow(joint.y,2));
+    var new_angle = ((Math.atan2(joint.y,joint.x) * 180) / Math.PI) || 0;
+    var delta_x = options.x + Math.cos(((options.angle + new_angle) * Math.PI) / 180) * dist;
+    var delta_y = options.y - Math.sin(((options.angle + new_angle) * Math.PI) / 180) * dist;
+    var delta_angle = options.angle + joint.rotate;
+
+    var tmp = {
+      x : delta_x,
+      y : delta_y,
+      z : up ? joint.z_up : joint.z_down,
+      id : joint.id,
+      angle : delta_angle,
+      img : joint.image_element,
+      img_options : joint.image
+    };
+
+    end_list_joints.push(tmp);
+
+    if(joint.childrens.length > 0){
+      for(var i in joint.childrens){
+        recursiveJoints(joint.childrens[i], tmp);
+      }
+    }
+  }
+
+  function recursiveItem(item, t){
+    var tmp = '<div class="item_tab" data-joint="' + item.id + '" style="padding-left: ' + (t * 10) + 'px"><i class="fa fa-chevron-right"></i> ' + item.name + '</div>'
+    $('.list').append(tmp);
+
+    $('[data-joint="' + item.id + '"]').click(function(){
+      var d = $(this).data('joint');
+      selectJoint(d);
+    });
+
+    if(item.childrens.length > 0){
+      for(var i in item.childrens){
+        recursiveItem(item.childrens[i], t + 1);
+      }
+    }
+  }
+
+  function updateList(){
+    $('.list').empty();
+
+    for(var i in joints){
+      recursiveItem(joints[i], 1);
+    }
+  }
+
+  function reDraw(){
+    ctx.imageSmoothingEnabled = false;
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+    //drawImage
+    var scale = parseInt($('#image_scale').val());
+    var image_w = skeleton_image.width * scale
+    var image_h = skeleton_image.height * scale
+    var image_x = canvas.width - image_w;
+    var image_y = 0;
+
+    ctx.fillStyle = "#111"
+    ctx.fillRect(image_x,image_y,image_w,image_h);
+    ctx.drawImage(skeleton_image,image_x,image_y,image_w,image_h);
+
+    //drawSelectorImage
+    var joint_image_x = 0;
+    var joint_image_y = 0;
+    var joint_image_w = 0;
+    var joint_image_h = 0;
+    if(up){
+      joint_image_x = parseInt($('#joint_image_x_up').val());
+      joint_image_y = parseInt($('#joint_image_y_up').val());
+      joint_image_w = parseInt($('#joint_image_w_up').val());
+      joint_image_h = parseInt($('#joint_image_h_up').val());
+    }else{
+      joint_image_x = parseInt($('#joint_image_x_down').val());
+      joint_image_y = parseInt($('#joint_image_y_down').val());
+      joint_image_w = parseInt($('#joint_image_w_down').val());
+      joint_image_h = parseInt($('#joint_image_h_down').val());
+    }
+
+    ctx.fillStyle = "#ff0000"
+    ctx.globalAlpha = 0.5
+
+    ctx.fillRect(image_x + (joint_image_x * scale),image_y + (joint_image_y * scale),joint_image_w * scale,joint_image_h * scale);
+
+    ctx.globalAlpha = 1;
+
+    //Skeleton
+    ctx.save();
+      ctx.translate(center_root[0],center_root[1]);
+      ctx.scale(scale_skeleton,scale_skeleton);
+      ctx.imageSmoothingEnabled = false;
+
+        end_list_joints = [];
+
+        for(var i in joints){
+          recursiveJoints(joints[i],{ x: 0, y: 0, angle: 0 });
+        }
+
+        end_list_joints = end_list_joints.sort(function(a,b) { return parseFloat(a.z) - parseFloat(b.z) } );
+
+        for(var i in end_list_joints){
+          joint = end_list_joints[i];
+
+          ctx.save();
+            ctx.translate(joint.x, joint.y);
+            ctx.rotate((-joint.angle * Math.PI) / 180);
+              if((joint.id != "root") && (joint.img != undefined)){
+                if(up){
+                  ctx.drawImage(
+                    joint.img,
+                    joint.img_options.x_up,
+                    joint.img_options.y_up,
+                    joint.img_options.w_up,
+                    joint.img_options.h_up,
+                    joint.img_options.offset_x,
+                    joint.img_options.offset_y,
+                    joint.img_options.w_up,
+                    joint.img_options.h_up
+                    );
+                }else{
+                  ctx.drawImage(
+                    joint.img,
+                    joint.img_options.x_down,
+                    joint.img_options.y_down,
+                    joint.img_options.w_down,
+                    joint.img_options.h_down,
+                    joint.img_options.offset_x,
+                    joint.img_options.offset_y,
+                    joint.img_options.w_down,
+                    joint.img_options.h_down
+                    );
+                }
+              }
+              if(joints_visible){
+                ctx.drawImage(joint_image,-1,-1,3,3);
+              }
+          ctx.restore();
+        }
+
+      ctx.fillStyle
+    ctx.restore();
+  }
+
+  function resetRotates(){
+    for(var i in joints_reference){
+      joints_reference[i].rotate = 0;
+    }
+
+    reDraw();
+  }
+
+  function toggleJoints(){
+    joints_visible = !joints_visible;
+
+    reDraw();
+  }
+
+  function toggleUp(){
+    up = !up;
+
+    reDraw();
+  }
+
+  function initJoints(joint){
+    if(joint == undefined){
+      for(var i in joints){
+        initJoints(joints[i]);
+      }
+    }else{
+      if(joint.image.src != undefined){
+        joint.image_element = new Image();
+        joint.image_element.src = "/files/sprites/" + joint.image.src + ".png";
+        joint.image_element.onload = reDraw;
+      }
+
+      joints_reference[joint.id] = joint;
+
+      if(joint.childrens.length > 0){
+        for(var i in joint.childrens){
+          initJoints(joint.childrens[i]);
+        }
+      }
+    }
+  }
+
+  function Save(){
+    for(var i in joints_reference){
+      delete joints_reference[i].image_element;
+    }
+
+    $('#skeleton_joints').val(JSON.stringify(joints));
+    $('form').submit();
+  }
+
+  function Load(){
+    var selected = $('#table_load').find('tr.active').data('id');
+    if(selected == undefined){ return; }
+
+    top.location = "/skeletons/" + selected + "/skeleton";
+  }
+
+  $(function(){
+
+    $('#joint_image').change(setImage);
+    $('#image_scale, .joint_coordinates input').change(reDraw);
+
+    $('.joint_form input, .joint_form select').change(updateJoint);
+    $('.joint_form input, .joint_form select').keyup(updateJoint);
+
+    $(document).keydown(function(e){
+      if(e.keyCode == 39){
+        joints_reference[selected_joint].rotate -= 1;
+      }
+      if(e.keyCode == 37){
+        joints_reference[selected_joint].rotate += 1;
+      }
+      reDraw();
+    });
+
+    initJoints();
+
+    setImage();
+    updateList();
+    selectJoint("root");
+  });
+</script>

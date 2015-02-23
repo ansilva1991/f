@@ -52,10 +52,7 @@
 
 <script type="text/javascript">
   var kind_objects = JSON.parse('<%= raw GameObject::KINDS.to_json %>');
-  var tile_objects = {
-    NPC : 0,
-    ObjectPush : 1
-  }
+  var tile_objects = JSON.parse('<%= raw tiles_index_objects.to_json %>');
   var cursor_tiles = [0,0];
   var cursor_selected = [36,36];
   var img_tiles = new Image();

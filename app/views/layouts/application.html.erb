@@ -14,7 +14,7 @@
 <div class="body">
   <% if @left %>
     <% @left.each do |i| %>
-      <div class="<%= i[:class_html] %> col-left" data-content="<%= i[:content] %>">
+      <div class="<%= i[:class_html] %> col-left col" data-content="<%= i[:content] %>">
         <%= render i[:content] %>
       </div>
     <% end %>
@@ -24,7 +24,7 @@
   </div>
   <% if @right %>
     <% @right.each do |i| %>
-      <div class="<%= i[:class_html] %> col-right" data-content="<%= i[:content] %>">
+      <div class="<%= i[:class_html] %> col-right col" data-content="<%= i[:content] %>">
         <%= render i[:content] %>
       </div>
     <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208224935) do
+ActiveRecord::Schema.define(version: 20150222184744) do
 
   create_table "game_objects", force: true do |t|
     t.integer  "map_id"
@@ -59,6 +59,13 @@ ActiveRecord::Schema.define(version: 20141208224935) do
     t.float    "max_life_init",         limit: 24, default: 0.0
     t.float    "max_life_end",          limit: 24, default: 0.0
     t.string   "color",                            default: "#000000"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "skeletons", force: true do |t|
+    t.string   "name"
+    t.text     "joints"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

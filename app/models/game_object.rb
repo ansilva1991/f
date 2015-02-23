@@ -13,6 +13,12 @@ class GameObject < ActiveRecord::Base
       x: 0,
       y: 0,
       type: [0]
+    },
+    ObjectPick: {
+      x: 0,
+      y: 0,
+      type: [0],
+      fragile: [true,false]
     }
   }
 

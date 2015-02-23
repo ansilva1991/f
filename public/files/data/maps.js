@@ -34,7 +34,8 @@ var data_maps = {
         options : {
           x : 24,
           y : 24,
-          type : 0
+          type : 0,
+          fragile : true
         }
       }
     ]

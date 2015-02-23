@@ -2,26 +2,26 @@
 - GUI HECHO
 - MAP INFO HECHO
 - change Map HECHO
-- Objetos arrojables y/o rompibles.
+- Objetos arrojables y/o rompibles HECHO.
 - Slider Button A.
 - Presentation Object.
 - MAP EDITOR!!! HECHO
 
 - Establecer Controles
   - GamePad
-    * Correr
-    * Empujar Cosas
+    * Correr HECHO
+    * Empujar Cosas HECHO
   - Button A
     * Atacar
-    * Hablar
+    * Hablar HECHO
     * Activar Cosas
-    * Cojer Objetos
-    * Tirar Objetos
+    * Cojer Objetos HECHO
+    * Tirar Objetos HECHO
   - Slide Button A
     * Cambiar Arma
   - Button B
-    * Activar Sigilo
-    * Escudo
+    * Activar Sigilo HECHO
+    * Escudo HECHO
   - Button UpLeft
     * Ordenes Perro
   - Click in Player

@@ -20,7 +20,7 @@ function Map(){
   this.scale = 4;
   this.Update = function(){
     if(this.center_object != undefined){
-      if(this.distanceTo([this.center_x,this.center_y],[this.center_object.x,this.center_object.y]) > 2){
+      if(this.distanceTo([this.center_x,this.center_y],[this.center_object.x,this.center_object.y]) > 0.5){
         this.center_x -= (this.center_x - this.center_object.x) * 0.1;
         this.center_y -= (this.center_y - this.center_object.y) * 0.1;
       }else{
@@ -28,8 +28,8 @@ function Map(){
         this.center_y = this.center_object.y;
       }
     }
-    this.center_x = Math.round(this.center_x);
-    this.center_y = Math.round(this.center_y);
+    //this.center_x = Math.round(this.center_x);
+    //this.center_y = Math.round(this.center_y);
   };
   this.Draw = function(ctx){
     var init_h = this.center_x/this.grid - (this.render_ratio_h * 0.5);

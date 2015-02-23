@@ -154,15 +154,53 @@ Mueve para levantar a [NOMBRE].
 
   Pantallazo negro suavemente
 
-  **** Un par de minutos mas tarde ****
+  Despiertas en una habitación pequeña de madera con ventanas redondas. Una cama de madera con sabanas sucias en la esquina superior izquierda, un pequeño cofre a tu derecha y una mesa con 2 banquitos bastantes dañados.
 
-  - ???: (Guau)(Guau) Despierta humano!!
+  Sales de la habitación y te das cta que estas en un barco. Al salir observas al cachorro que estaba tirado corriendo hacia a ti moviendo su cola alegremente por verte. en la  proa observas al vagabundo mirando hacian el horizonte.
 
-  la pantalla se disfumina y observas a [NOMBRE] tirado contra la pared y al cachorro parado frente a el feliz moviendo su colita.
+  Te acercas a para hablar con el.
 
-  - ???: Despierta o nos atraparan!. (Guau)
+  - Vagabundo: Al fin despiertas! Llevas más de tres lunas durmiendo...¿ Como te encuentras?
 
-  [NOMBRE] se espanta al ver que el cachorro habla y se aleja.
-  
+  Opciones
+  - Desconcertado.
+  - Ansioso.
+  - Confundido.
+
+  - Vagabundo: Jajaja es normal, no te preocupes.Cuando te saque de ese pozo, no pense que fueran a sobrevivir...ninguno de los 2.
+  - Vagabundo: Seguro me odias por lo que te hice...pero conseguiste lo que necesitabas...
+  - Vagabundo: Jajaja ¿ Qué no conseguiste nada?...cuando te conoci mencionaste que no tenias amigos, familia o alguien en quien confiar.
+  - Vagabundo: No se que fue lo que paso alla abajo pero ese cachorro no se movio de tu puerta hasta que despertaste.
+  - Vagabundo: Enseñale, entrenalo y lo más importante aprende...Lo necesitaras para lo que se aproxima...
+
+  Pantallazo negro suavemente
+
+  Capitulo I
+  El destino.
+
+  El barco esta anclado en el puerto tu estas sobre el barco todavia.
+
+  - Vagabundo: Bienvenido a Ingvar, yo tengo asustos pendientes en el pueblo que esta al norte. Ve al pueblo y busca la taberna del Sastre Higgins y pregunta por Valeska La 'Bendecida'. Por cierto mi nombre es Eomer.
+  - Eomer: Volvere por ti en cuanto termine...
+
+  Eomer se aleja. Bajas del barco acompañado por el cachorro y te diriges hacia el este, el pueblo es de etnia escandinava, gran cantidad de ciudadanos por las calles. llegas a la taberna del Sastre Higgins, una taberna de tamaño mediano con una clientela fiel. Al entrar observas en al parte superior la barra con 2 clientes bebiendo, algunas mesas vacias, clientes jugando a los dardos y al sur cerca de la entrada una hoguera.
+
+  Hablas con el tabernero.
+
+  - Tabernero: ¿ Que buscas niño?... Si no tienes dinero largate...
+  - Tabernero: ¿ Valeska La 'Bendecida'?... Lo siento no conozco a nadie con ese nombre. Largo!!!
+  - ???: Dejalo pasar...
+  - Tabernero: Parece que has llamado su atención chico... Pasa por la puerta de atras.
+
+  Te diriges hacia la puerta al entrar ves una habitación casi vacia con una mesa una sola silla, una mujer anciana sentada en ella, y muchos barriles detras de ella.
+
+  - ???: Valeska La 'Bendecida'...jajaja. Hacia mucho tiempo que nadie me llamaba por ese nombre. Soy Valeska dueña del Sastre Higgins.
+  - Valeska: Acercate muchacho dejame verte de cerca.
+
+  Te acercas a Valeska.
+
+  - Valeska: mmmm ojos claros, cabello oscuro, de mediana estatura...Quien lo diría...quien lo diría...dejame contarte una historia muchacho.
+  - Valeska: Hace muchos siglos atras , la tierra estaba gobernada por cinco reyes. Al Este el rey Daven gobernaba las tierras ventosas con paz y armonia, Al Oeste la tierra de volcanes y rios de fuego era comandada por el rey Nils, Al sur el mar predominaba sobre la tierra, las islas sureñas habian sido conquistadas por el Emperador Kai y sus ejercitos. Al norte la tierra se elevaba hasta llegar al mismo Asgard, tierras rocosas e infertiles. Eran gobernadas por el Rey Aaren...En el centro de los 4 reinos se encontraba la ciudad de Bjorn, encargada de mantener el equilibrio y la paz entre los 5 reinos. Esta era gobernada por un consejo de ancianos provenientes de los 4 reinos adyacentes. Los reinos prosperaron y se mantuvieron en equilibrio por varias decadas...Hasta que el rey Aaren señor del norte perdio a su esposa Cybele, desesperado busco traerla de vuelta...varios lo intentaron pero fallaron...desde las sombras surgio un hechizero de tierras lejanas, '¿Acaso deseas salvarla?...debes dar algo a cambio...' fueron sus palabras... el Rey accedio. Cybele volvio a la vida,
+  pero tanto ella como el Rey ya no eran los mismos...los 5 reinos cayeron en desgracia, guerras se libraron, muchos perdieron y nadie ganaba...Entonces todo cambio un grupo de 5 valientes heroés provenientes de los 5 reinos, marcharon hacia el norte en busca del hechizero. Una batalla epica se libro en el monte Egil, el hechizero logro escapar, pero todo su poder fue sellado en 5 
 
 
