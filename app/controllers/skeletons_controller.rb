@@ -15,11 +15,16 @@ class SkeletonsController < ApplicationController
     redirect_to skeleton_skeleton_path(@skeleton), :notice => "<i class='fa fa-check'></i> Create succefully"
   end
 
-   def update
+  def update
     @skeleton = Skeleton.find(params[:id])
     @skeleton.update_attributes( params[:skeleton].to_hash )
 
     redirect_to skeleton_skeleton_path(@skeleton), :notice => "<i class='fa fa-check'></i> Save succefully"
+  end
+
+  def generate
+    @skeleton = Skeleton.find(params[:id])
+    render json: @skeleton.compilate
   end
 
   def set_tools

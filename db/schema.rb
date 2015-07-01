@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222184744) do
+ActiveRecord::Schema.define(version: 20150701015513) do
+
+  create_table "animations", force: true do |t|
+    t.string   "name"
+    t.integer  "step_per_frame"
+    t.text     "frames",         limit: 2147483647
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "game_objects", force: true do |t|
     t.integer  "map_id"

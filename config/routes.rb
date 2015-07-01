@@ -14,6 +14,14 @@ Rails.application.routes.draw do
   resources :skeletons, only: [:index,:create,:update] do
     member do
       get 'skeleton' => "skeletons#index"
+      get 'skeleton_generate' => "skeletons#generate"
+    end
+  end
+
+  resources :animations, only: [:index,:create,:update] do
+    member do
+      get 'animation' => "animations#index"
+      get 'animation_generate' => "animations#generate"
     end
   end
 

@@ -28,7 +28,7 @@
 
 <script type="text/javascript">
   var canvas = $('#canvas')[0];
-  var ctx = canvas.getContext('2d',true);
+  var ctx = canvas.getContext('2d');
 
   var end_list_joints = [];
 
@@ -45,6 +45,7 @@
       z_up : 0,
       rotate : 0,
       image : {},
+      material : '',
       childrens : []
     }];
   <% end %>
@@ -69,7 +70,7 @@
   var left = 1;
 
   function setImage(){
-    var src = "/files/sprites/" + $('#joint_image').val() + ".png";
+    var src = "/files/sprites/" + joints_reference[selected_joint].image.src + ".png";
     skeleton_image.src = src;
   }
 
@@ -92,6 +93,7 @@
     if(j.name != "root"){
       $('.joint_form input, .joint_form select').removeAttr('disabled');
       $('#joint_image option[value="' + j.image.src + '"]').attr('selected','selected');
+      $('#joint_material').val(j.material);
       $('#joint_options_n').val(j.options.n);
       $('#joint_options_y').val(j.options.y);
       $('#joint_options_sex_offset').val(j.options.sex_offset);
@@ -145,6 +147,7 @@
         offset_y : joints_reference[selected_joint].image.offset_y || 0
       },
       image_element : new Image(),
+      material: '',
       options: { n : 0, y: 0 , sex_offset : 0 },
       childrens : [],
       parent : selected_joint
@@ -173,6 +176,7 @@
     j.z_down = parseInt($('#joint_z_down').val());
     j.z_up = parseInt($('#joint_z_up').val());
     j.image.src = $('#joint_image').val();
+    j.material = $('#joint_material').val();
     j.options.n = $('#joint_options_n').val();
     j.options.y = $('#joint_options_y').val();
     j.options.sex_offset = $('#joint_options_sex_offset').val();
@@ -260,7 +264,9 @@
 
     ctx.fillStyle = "#111"
     ctx.fillRect(image_x,image_y,image_w,image_h);
-    ctx.drawImage(skeleton_image,image_x,image_y,image_w,image_h);
+    if(this.selected_joint != "root"){
+      ctx.drawImage(skeleton_image,image_x,image_y,image_w,image_h);
+    }
 
     //drawSelectorImage
     var joint_image_x = 0;
@@ -286,11 +292,17 @@
 
     ctx.globalAlpha = 1;
 
+    drawSkeleton();
+
+    ctx.imageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
+  }
+
+  function drawSkeleton(){
     //Skeleton
     ctx.save();
       ctx.translate(center_root[0],center_root[1]);
       ctx.scale(scale_skeleton,scale_skeleton);
-      ctx.imageSmoothingEnabled = false;
 
         end_list_joints = [];
 
@@ -299,38 +311,42 @@
         }
 
         end_list_joints = end_list_joints.sort(function(a,b) { return parseFloat(a.z) - parseFloat(b.z) } );
-
+        console.log(end_list_joints);
         for(var i in end_list_joints){
           joint = end_list_joints[i];
 
           ctx.save();
             ctx.translate(joint.x, joint.y);
             ctx.rotate((-joint.angle * Math.PI) / 180);
-              if((joint.id != "root") && (joint.img != undefined)){
-                if(up){
-                  ctx.drawImage(
-                    joint.img,
-                    joint.img_options.x_up,
-                    joint.img_options.y_up,
-                    joint.img_options.w_up,
-                    joint.img_options.h_up,
-                    joint.img_options.offset_x,
-                    joint.img_options.offset_y,
-                    joint.img_options.w_up,
-                    joint.img_options.h_up
-                    );
-                }else{
-                  ctx.drawImage(
-                    joint.img,
-                    joint.img_options.x_down,
-                    joint.img_options.y_down,
-                    joint.img_options.w_down,
-                    joint.img_options.h_down,
-                    joint.img_options.offset_x,
-                    joint.img_options.offset_y,
-                    joint.img_options.w_down,
-                    joint.img_options.h_down
-                    );
+              if((joint.id != "root") && (joint.img != undefined)&&(joint.img_options.w_down > 0)&&(joint.img_options.h_down > 0)&&(joint.img_options.w_up > 0)&&(joint.img_options.h_up > 0)){
+                try {
+                  if(up){
+                    ctx.drawImage(
+                      joint.img,
+                      joint.img_options.x_up,
+                      joint.img_options.y_up,
+                      joint.img_options.w_up,
+                      joint.img_options.h_up,
+                      joint.img_options.offset_x,
+                      joint.img_options.offset_y,
+                      joint.img_options.w_up,
+                      joint.img_options.h_up
+                      );
+                  }else{
+                    ctx.drawImage(
+                      joint.img,
+                      joint.img_options.x_down,
+                      joint.img_options.y_down,
+                      joint.img_options.w_down,
+                      joint.img_options.h_down,
+                      joint.img_options.offset_x,
+                      joint.img_options.offset_y,
+                      joint.img_options.w_down,
+                      joint.img_options.h_down
+                      );
+                  }
+                }
+                catch(err) {
                 }
               }
               if(joints_visible){
@@ -339,7 +355,6 @@
           ctx.restore();
         }
 
-      ctx.fillStyle
     ctx.restore();
   }
 
